@@ -22,27 +22,32 @@ def bench_clustering(estimator, name, gt_labels):
              metrics.adjusted_mutual_info_score(gt_labels,  estimator.labels_),)
          )
 
-def kmeans_cluster_pseudo_probability(estimator):
+def kmeans_cluster_pseudo_similarity(estimator):
+    # similarity is not symmetric. also it is bound in 0 to 1.
     cluster_dists = squareform(pdist(estimator.cluster_centers_))
-    cluster_sims = 1.0 / 1.0 + cluster_dists
-    np.fill_diagonal(cluster_sims, 0)    
-    divisor = np.sum(cluster_sims, 0)
     divisor[divisor == 0] = 1
-    cluster_probs = cluster_sims / divisor
-    return cluster_probs
+    cluster_dists = (cluster_dists.T / np.max(cluster_dists, 0)).T   # For each cluster max distance is 1    
+    cluster_sims = 1.0 - cluster_dists
+#     cluster_probs = (cluster_sims.T / np.sum(cluster_sims, 0)).T
+    return cluster_sims
 
-def spectral_cluster_pseudo_probability(estimator):
+def spectral_cluster_pseudo_similarity(estimator):
     labels = estimator.labels_
     class_ids = np.unique(labels)
     n_classes = len(class_ids)
     similarity = np.zeros((n_classes, n_classes))
     affinity = estimator.affinity_matrix_ 
     for c1, c2 in itertools.combinations(class_ids, 2):
-        # Sum edge weights accross clusters (double counts an edge)
-        similarity[c1, c2] = np.sum((labels == c1) * affinity * (labels == c2).T) / 2.0 
-    divisor = np.sum(similarity, 0)
-    divisor[divisor == 0] = 1
-    cluster_prob = similarity / divisor
-    return cluster_prob
+        # Sum edge weights across clusters (double counts an edge)
+        similarity[c1, c2] = np.sum((labels == c1) * affinity * (labels == c2).T) / 2.0
+        
+    for c in range(n_classes):
+        # Sum edge weights within each cluster (double counts an edge)
+        similarity[c, c] = np.sum((labels == c) * affinity * (labels == c).T) / 2.0
+        
+    similarity += similarity.T
+    similarity = (similarity.T / np.max(similarity, 0)).T   # For each cluster max similarity is 1    
+    
+    return similarity
 
 
