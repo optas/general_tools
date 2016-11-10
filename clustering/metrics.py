@@ -8,6 +8,7 @@ import numpy as np
 from sklearn import metrics
 from scipy.spatial.distance import pdist, squareform
 import itertools
+from numpy import dtype
 
 def bench_clustering(estimator, name, gt_labels):
     '''Compares a clustering produced by an algorithm like kmeans or spectral clustering
@@ -25,7 +26,6 @@ def bench_clustering(estimator, name, gt_labels):
 def kmeans_cluster_pseudo_similarity(estimator):
     # similarity is not symmetric. also it is bound in 0 to 1.
     cluster_dists = squareform(pdist(estimator.cluster_centers_))
-    divisor[divisor == 0] = 1
     cluster_dists = (cluster_dists.T / np.max(cluster_dists, 0)).T   # For each cluster max distance is 1    
     cluster_sims = 1.0 - cluster_dists
 #     cluster_probs = (cluster_sims.T / np.sum(cluster_sims, 0)).T
@@ -50,4 +50,42 @@ def spectral_cluster_pseudo_similarity(estimator):
     
     return similarity
 
+def clustering_indicator_vectors(labels):
+    n_points = len(labels)    
+    n_clusters = len(np.unique(labels)) # Assert contiguous
+    
+    if not is_contiguous(labels, min_elem=0, max_elem=n_clusters-1):
+        raise NotImplementedError()
+    
+    indicators = np.zeros((n_clusters, n_points), dtype = np.float32)    
+    for i, label in enumerate(labels):
+        indicators[label,i] = 1
+      
+    for i in range(n_points):
+        assert(np.all(np.where(indicators[:,i] == 1) == labels[i]))
+    
+    return indicators
 
+
+# TODO MOVE TO 'general_tools'
+def is_integer(x):
+    '''
+    4 or 4.0 are considered integers, but 4.2 is not. Also boolean values True, False are considered integers (1, 0).
+    '''
+    return np.equal(np.mod(x,1), 0)
+    
+def is_contiguous(array, min_elem=None, max_elem=None):
+    ''' Checks if an array contains all the integers values in the range [min_elem, max_elem]. If one of the two bounds
+    is not explicitly defined as input, then the minimum/maximum element in the array is used to check the contiguousness.
+    '''    
+    if np.all(is_integer(array)):
+        uvalues = np.unique(array)
+        min_elem = min(uvalues) if min_elem == None else min_elem         
+        max_elem = max(uvalues) if max_elem == None else max_elem
+        n_elems = max_elem - min_elem + 1
+        if n_elems != len(uvalues):
+            return False
+        else:
+            return np.all(np.equal(uvalues, np.arange(min_elem, max_elem+1)))    
+    else:
+        return False
