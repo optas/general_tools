@@ -1,5 +1,5 @@
 '''
-Created on Nov 8, 2016
+Created on November 8, 2016
 
 @author: optas
 '''
@@ -9,6 +9,9 @@ from sklearn import metrics
 from scipy.spatial.distance import pdist, squareform
 import itertools
 from numpy import dtype
+
+from .. arrays import is_true
+from is_true import is_contiguous, is_integer
 
 def bench_clustering(estimator, name, gt_labels):
     '''Compares a clustering produced by an algorithm like kmeans or spectral clustering
@@ -65,27 +68,3 @@ def clustering_indicator_vectors(labels):
         assert(np.all(np.where(indicators[:,i] == 1) == labels[i]))
     
     return indicators
-
-
-# TODO MOVE TO 'general_tools'
-def is_integer(x):
-    '''
-    4 or 4.0 are considered integers, but 4.2 is not. Also boolean values True, False are considered integers (1, 0).
-    '''
-    return np.equal(np.mod(x,1), 0)
-    
-def is_contiguous(array, min_elem=None, max_elem=None):
-    ''' Checks if an array contains all the integers values in the range [min_elem, max_elem]. If one of the two bounds
-    is not explicitly defined as input, then the minimum/maximum element in the array is used to check the contiguousness.
-    '''    
-    if np.all(is_integer(array)):
-        uvalues = np.unique(array)
-        min_elem = min(uvalues) if min_elem == None else min_elem         
-        max_elem = max(uvalues) if max_elem == None else max_elem
-        n_elems = max_elem - min_elem + 1
-        if n_elems != len(uvalues):
-            return False
-        else:
-            return np.all(np.equal(uvalues, np.arange(min_elem, max_elem+1)))    
-    else:
-        return False
