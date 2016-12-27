@@ -10,8 +10,7 @@ from scipy.spatial.distance import pdist, squareform
 import itertools
 from numpy import dtype
 
-from .. arrays import is_true
-from is_true import is_contiguous, is_integer
+from .. arrays.is_true import is_contiguous, is_integer 
 
 def bench_clustering(estimator, name, gt_labels):
     '''Compares a clustering produced by an algorithm like kmeans or spectral clustering
