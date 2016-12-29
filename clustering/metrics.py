@@ -12,10 +12,13 @@ from numpy import dtype
 
 from .. arrays.is_true import is_contiguous, is_integer 
 
-def bench_clustering(estimator, name, gt_labels):
+def bench_clustering(estimator, name, gt_labels, verbose=True):
     '''Compares a clustering produced by an algorithm like kmeans or spectral clustering
     with a ground-truth clustering under some popular fitness metrics.
     '''    
+    if verbose:
+        print ('%30s   %4s   %4s   %4s   %4s   %4s' % (' ', 'Homog', 'Compl', 'V-Mea', 'A-Ran', 'A-Mut') )
+        
     print('%30s   %.3f   %.3f   %.3f   %.3f   %.3f'
           % (name,
              metrics.homogeneity_score(gt_labels, estimator.labels_),
