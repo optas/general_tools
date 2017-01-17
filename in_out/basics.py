@@ -31,8 +31,9 @@ def copy_folder_structure(top_dir, out_dir):
         create_dir(osp.join(out_dir, d.replace(top_dir, '')))
 
 
-def shuffle_lines_of_file(in_file, out_file, seed=0):
-    np.random.seed(seed)
+def shuffle_lines_of_file(in_file, out_file, seed=None):
+    if seed is not None:
+        np.random.seed(seed)
     with open(in_file, 'r') as f_in:
         all_lines = f_in.readlines()
         np.random.shuffle(all_lines)

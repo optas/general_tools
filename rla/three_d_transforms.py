@@ -5,7 +5,7 @@
 import numpy as np
 
 
-def rand_rotation_matrix(deflection=1.0, seed=0):
+def rand_rotation_matrix(deflection=1.0, seed=None):
     '''Creates a random rotation matrix.
 
     deflection: the magnitude of the rotation. For 0, no rotation; for 1, completely random
@@ -14,7 +14,9 @@ def rand_rotation_matrix(deflection=1.0, seed=0):
     DOI: http://www.realtimerendering.com/resources/GraphicsGems/gemsiii/rand_rotation.c
          http://blog.lostinmyterminal.com/python/2015/05/12/random-rotation-matrix.html
     '''
-    np.random.seed(seed)
+    if seed is not None:
+        np.random.seed(seed)
+
     randnums = np.random.uniform(size=(3,))
 
     theta, phi, z = randnums
