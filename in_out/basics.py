@@ -10,7 +10,7 @@ import os
 import os.path as osp
 import numpy as np
 import warnings
-
+import re
 
 def create_dir(dir_path):
     ''' Creates a directory (or nested directories) if they don't exist.
@@ -98,3 +98,13 @@ def read_header_of_np_saved_txt(in_file):
         header = None
 
     return header
+
+
+def files_in_subdirs(top_dir, search_pattern):
+    join = os.path.join
+    regex = re.compile(search_pattern)
+    for path, _, files in os.walk(top_dir):
+        for name in files:
+            full_name = join(path, name)
+            if regex.search(full_name):
+                yield full_name
