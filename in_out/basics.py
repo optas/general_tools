@@ -11,6 +11,23 @@ import os.path as osp
 import numpy as np
 import warnings
 import re
+import cPickle
+
+
+def save_data(file_name, *args):
+    myFile = open(file_name, "w")
+    cPickle.dump(len(args), myFile)
+    for item in args:
+        cPickle.dump(item, myFile)
+    myFile.close()
+
+
+def load_data(file_name):
+    inFile = open(file_name, "r")
+    size = cPickle.load(inFile)
+    for _ in xrange(size):
+        yield cPickle.load(inFile)
+    inFile.close()
 
 
 def create_dir(dir_path):
