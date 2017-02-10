@@ -17,7 +17,7 @@ import cPickle
 def pickle_data(file_name, *args):
     '''Using (c)Pickle to save multiple python objects in a single file.
     '''
-    myFile = open(file_name, "w")
+    myFile = open(file_name, 'w')
     cPickle.dump(len(args), myFile)
     for item in args:
         cPickle.dump(item, myFile)
@@ -27,7 +27,7 @@ def pickle_data(file_name, *args):
 def unpickle_data(file_name):
     '''Restore data previously saved with pickle_data().
     '''
-    inFile = open(file_name, "r")
+    inFile = open(file_name, 'r')
     size = cPickle.load(inFile)
     for _ in xrange(size):
         yield cPickle.load(inFile)
