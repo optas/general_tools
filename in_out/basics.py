@@ -43,6 +43,14 @@ def create_dir(dir_path):
     return dir_path
 
 
+def delete_files_in_directory(dir_path):
+    ''' Deletes all files that are directly under the dir_path.
+    '''
+    file_list = [f for f in os.listdir(dir_path) if osp.isfile(osp.join(dir_path, f))]
+    for f in file_list:
+        os.remove(osp.join(dir_path, f))
+
+
 def copy_folder_structure(top_dir, out_dir):
     if top_dir[-1] != os.sep:
         top_dir += os.sep
