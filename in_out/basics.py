@@ -11,14 +11,13 @@ import os.path as osp
 import numpy as np
 import warnings
 import re
-
 from six.moves import cPickle
 
 
 def pickle_data(file_name, *args):
     '''Using (c)Pickle to save multiple python objects in a single file.
     '''
-    myFile = open(file_name, 'w')
+    myFile = open(file_name, 'wb')
     cPickle.dump(len(args), myFile, protocol=2)
     for item in args:
         cPickle.dump(item, myFile, protocol=2)
