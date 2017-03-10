@@ -27,7 +27,7 @@ def pickle_data(file_name, *args):
 def unpickle_data(file_name):
     '''Restore data previously saved with pickle_data().
     '''
-    inFile = open(file_name, 'r')
+    inFile = open(file_name, 'rb')
     size = cPickle.load(inFile)
     for _ in xrange(size):
         yield cPickle.load(inFile)
