@@ -11,19 +11,17 @@ import os.path as osp
 import numpy as np
 import warnings
 import re
-try:
-    import cPickle as pickler
-except:
-    import pickle as pickler
+
+from six.moves import cPickle
 
 
 def pickle_data(file_name, *args):
     '''Using (c)Pickle to save multiple python objects in a single file.
     '''
     myFile = open(file_name, 'w')
-    pickler.dump(len(args), myFile, protocol=2)
+    cPickle.dump(len(args), myFile, protocol=2)
     for item in args:
-        pickler.dump(item, myFile, protocol=2)
+        cPickle.dump(item, myFile, protocol=2)
     myFile.close()
 
 
@@ -31,9 +29,9 @@ def unpickle_data(file_name):
     '''Restore data previously saved with pickle_data().
     '''
     inFile = open(file_name, 'r')
-    size = pickler.load(inFile)
+    size = cPickle.load(inFile)
     for _ in xrange(size):
-        yield pickler.load(inFile)
+        yield cPickle.load(inFile)
     inFile.close()
 
 
