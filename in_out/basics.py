@@ -21,9 +21,9 @@ def pickle_data(file_name, *args):
     '''Using (c)Pickle to save multiple python objects in a single file.
     '''
     myFile = open(file_name, 'w')
-    pickler.dump(len(args), myFile)
+    pickler.dump(len(args), myFile, protocol=2)
     for item in args:
-        pickler.dump(item, myFile)
+        pickler.dump(item, myFile, protocol=2)
     myFile.close()
 
 
