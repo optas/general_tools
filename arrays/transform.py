@@ -17,7 +17,7 @@ def make_contiguous(array, start=0):
 
     uvalues = np.unique(array)
     d = {key: value + start for (value, key) in enumerate(uvalues)}
-    for i, val in enumerate(array):     # TODO -> use flatten to work on all dimensions
+    for i, _ in enumerate(array):     # TODO -> use flatten to work on all dimensions
         array[i] = d[array[i]]
 
     return array
