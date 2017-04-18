@@ -102,13 +102,13 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
     for i in xrange(xnum):
 	for j in xrange(ynum):
                 mindist = 1
-		for k in xrange(N):
-			tmp_dist = (x[k,0] - i * res) ** 2 + (x[k,1] - j * res) ** 2
-			if mindist > tmp_dist and not used[k]:
-				mindist = tmp_dist	
-				grid_2_img[i,j] = k
-				used[k] = True
-
+		sorted_indices = np.argsort( (x[:,0] - i * res) ** 2 + (x[:,1] - j * res) ** 2)
+		k = 0
+		while used[sorted_indices[k]]:
+			k  = k + 1
+		used[k] = True
+		grid_2_img[i,j] = sorted_indices[k]
+		
     for i in xrange(xnum):
 	for j in xrange(ynum):
                 if grid_2_img[i,j] > -1:
