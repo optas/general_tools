@@ -100,15 +100,14 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
     res = float(small_dim) / float(big_dim)
     for i in xrange(xnum):
 	for j in xrange(ynum):
-                mindist = 1
 		sorted_indices = np.argsort( (x[:,0] - i * res) ** 2 + (x[:,1] - j * res) ** 2)
 		k = 0
 		while used[sorted_indices[k]]:
 			k  = k + 1
-		used[k] = True
+		used[sorted_indices[k]] = True
 		grid_2_img[i,j] = sorted_indices[k]
-		
-   for i in xrange(xnum):
+    
+    for i in xrange(xnum):
         for j in xrange(ynum):
             if grid_2_img[i, j] > -1:
                 im_file = image_files[grid_2_img[i, j]]
@@ -120,15 +119,11 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
                     print 'the code here fails. fix it.'
                     print im_file
                 continue
-#  
-####
-
-#     if save_file is not None:
-#         im = Image.fromarray(out_image)
-#         im.save(save_file)
-#     
-#     return out_image 
-
+    if save_file is not None:
+        im = Image.fromarray(out_image)
+        im.save(save_file)
+     
+    return out_image 
 # MATLAB CODE
 #     S = 2000; % size of final image
 #     G = zeros(S, S, 3, 'uint8');
