@@ -96,13 +96,42 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
     ynum = int(big_dim / float(small_dim))
     used = np.zeros(N, dtype=np.bool)
 
+#### lin
+    grid_2_img = np.ones((xnum,ynum),dtype='int') * -1
+    res = float(small_dim) / float(big_dim)
+    for i in xrange(xnum):
+	for j in xrange(ynum):
+                mindist = 1
+		for k in xrange(N):
+			tmp_dist = (x[k,0] - i * res) ** 2 + (x[k,1] - j * res) ** 2
+			if mindist > tmp_dist and not used[k]:
+				mindist = tmp_dist	
+				grid_2_img[i,j] = k
+				used[k] = True
+
+    for i in xrange(xnum):
+	for j in xrange(ynum):
+                if grid_2_img[i,j] > -1:
+			im_file = image_files[grid_2_img[i,j]]
+         		fig = cv2.imread(im_file)
+        		fig = cv2.resize(fig, (small_dim, small_dim))
+
+        		try:
+            			out_image[i * small_dim : (i + 1) * small_dim, j * small_dim : (j + 1) *small_dim, :] = fig	
+        		except:
+                		print 'the code here fails. fix it.'
+                		print im_file
+			continue
+ 
+####
+
     if save_file is not None:
         im = Image.fromarray(out_image)
         im.save(save_file)
     
     return out_image 
 
-    # MATLAB CODE
+# MATLAB CODE
 #     S = 2000; % size of final image
 #     G = zeros(S, S, 3, 'uint8');
 #     s = 50; % size of every image thumbnail
@@ -111,8 +140,8 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
 #     ynum = S/s;
 #     used = false(N, 1);
 #     
-#     qq=length(1:s:S);
-#     abes = zeros(qq*2,2);
+#     qq=length(1:s:S); // x or y contains small s
+#     abes = zeros(qq*2,2); // In abes every row contains x,y of left-high corner
 #     i=1;
 #     for a=1:s:S
 #         for b=1:s:S
