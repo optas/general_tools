@@ -107,7 +107,7 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
 		used[sorted_indices[k]] = True
 		grid_2_img[i,j] = sorted_indices[k]
     
-    for i in xrange(xnum):
+   for i in xrange(xnum):
         for j in xrange(ynum):
             if grid_2_img[i, j] > -1:
                 im_file = image_files[grid_2_img[i, j]]
@@ -168,3 +168,11 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
 #     end
 #     
 #     imshow(G);    
+=======
+
+    if save_file is not None:
+        im = Image.fromarray(out_image)
+        im.save(save_file)
+
+    return out_image
+>>>>>>> bf9425ba935f4d3240f44eb608af50906219c011
