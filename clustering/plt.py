@@ -94,7 +94,7 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
     N = two_dim_emb.shape[0]
     xnum = int(big_dim / float(small_dim))
     ynum = int(big_dim / float(small_dim))
-    used = np.zeros(N, dtype=np.bool)
+    free = np.ones(N, dtype=np.bool)
 
     grid_2_img = np.ones((xnum, ynum), dtype='int') * -1
     res = float(small_dim) / float(big_dim)
@@ -102,12 +102,14 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
         for j in xrange(ynum):
             sorted_indices = np.argsort((x[:, 0] - i * res)**2 + (x[:, 1] - j * res)**2)
             assert(np.all(sorted_indices <= N))
+            possible = sorted_indices[free[sorted_indices]]
 
-            possible = sorted_indices[np.logical_not(used)]
+            
 
             if len(possible) > 0:
-                used[possible[0]] = True
-                grid_2_img[i, j] = possible[0]
+                picked = possible[0]
+                free[picked] = False
+                grid_2_img[i, j] = picked
             else:
                 break
 
