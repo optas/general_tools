@@ -119,7 +119,6 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
                     print 'the code here fails. fix it.'
                     print im_file
                 continue
-
     if save_file is not None:
         im = Image.fromarray(out_image)
         im.save(save_file)
