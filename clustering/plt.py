@@ -104,7 +104,7 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
             k = 0
             while used[sorted_indices[k]]:
                 k = k + 1
-            used[k] = True
+            used[sorted_indices[k]] = True
             grid_2_img[i, j] = sorted_indices[k]
 
     for i in xrange(xnum):
