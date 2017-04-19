@@ -101,7 +101,10 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
     for i in xrange(xnum):
         for j in xrange(ynum):
             sorted_indices = np.argsort((x[:, 0] - i * res)**2 + (x[:, 1] - j * res)**2)
+            assert(np.all(sorted_indices <= N))
+
             possible = sorted_indices[np.logical_not(used)]
+
             if len(possible) > 0:
                 used[possible[0]] = True
                 grid_2_img[i, j] = possible[0]
@@ -120,6 +123,7 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
                     print 'the code here fails. fix it.'
                     print im_file
                 continue
+
     if save_file is not None:
         im = Image.fromarray(out_image)
         im.save(save_file)
