@@ -101,10 +101,7 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
     for i in xrange(xnum):
         for j in xrange(ynum):
             sorted_indices = np.argsort((x[:, 0] - i * res)**2 + (x[:, 1] - j * res)**2)
-            assert(np.all(sorted_indices <= N))
             possible = sorted_indices[free[sorted_indices]]
-
-            
 
             if len(possible) > 0:
                 picked = possible[0]
