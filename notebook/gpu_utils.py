@@ -64,11 +64,13 @@ def pick_gpu_lowest_memory():
     return best_gpu
 
 
-def setup_one_gpu():
+def setup_one_gpu(gpu_id=None):
     if 'tensorflow' in sys.modules:
         raise ValueError("GPU setup must happen before importing TensorFlow")
 
-    gpu_id = pick_gpu_lowest_memory()
+    if gpu_id is None:
+        gpu_id = pick_gpu_lowest_memory()
+
     print("Picking GPU " + str(gpu_id))
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
