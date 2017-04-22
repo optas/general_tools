@@ -72,7 +72,7 @@ def shuffle_lines_of_file(in_file, out_file, seed=None):
         f_out.writelines(all_lines)
 
 
-def boot_strap_lines_of_file(file_in, lines_total, file_out, skip_rows=0, seed=0):
+def boot_strap_lines_of_file(file_in, lines_total, file_out, skip_rows=0, seed=None):
     ''' Copies or removes at random lines of the input file, so that its total number
     of lines is as requested.
     '''
@@ -92,7 +92,10 @@ def boot_strap_lines_of_file(file_in, lines_total, file_out, skip_rows=0, seed=0
 
     diff = len(original_lines) - lines_total
     orig_l = np.arange(len(original_lines))
-    np.random.seed()
+
+    if seed is not None:
+        np.random.seed(seed)
+
     if diff > 0:
         drop_index = np.random.choice(orig_l, diff, replace=False)
         keep_index = np.setdiff1d(orig_l, drop_index)
