@@ -31,7 +31,7 @@ def list_available_gpus():
     result = []
     for line in output.strip().split("\n"):
         m = gpu_regex.match(line)
-        assert(m, "Couldnt parse " + line)
+        assert m, "Couldnt parse " + line
         result.append(int(m.group("gpu_id")))
     return result
 
