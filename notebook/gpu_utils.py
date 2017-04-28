@@ -10,16 +10,10 @@ Tested on nvidia-smi 370.23
 See also:  http://stackoverflow.com/a/41638727/419116
 '''
 
-import subprocess
 import re
 import os
 import sys
-
-
-def run_command(cmd):
-    """Run command, return output as string."""
-    output = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True).communicate()[0]
-    return output.decode("ascii")
+from .utils import run_command
 
 
 def list_available_gpus():
@@ -31,7 +25,7 @@ def list_available_gpus():
     result = []
     for line in output.strip().split("\n"):
         m = gpu_regex.match(line)
-        assert m, "Couldnt parse " + line
+        assert m, "Couldn't parse " + line
         result.append(int(m.group("gpu_id")))
     return result
 
@@ -44,7 +38,6 @@ def gpu_memory_map():
     # lines of the form
     # |    0      8734    C   python                                       11705MiB |
     memory_regex = re.compile(r"[|]\s+?(?P<gpu_id>\d+)\D+?(?P<pid>\d+).+[ ](?P<gpu_memory>\d+)MiB")
-    rows = gpu_output.split("\n")
     result = {gpu_id: 0 for gpu_id in list_available_gpus()}
     for row in gpu_output.split("\n"):
         m = memory_regex.search(row)
@@ -56,7 +49,7 @@ def gpu_memory_map():
     return result
 
 
-def pick_gpu_lowest_memory():
+def gpu_with_lowest_memory():
     """Returns GPU with the least allocated memory"""
 
     memory_gpu_map = [(memory, gpu_id) for (gpu_id, memory) in gpu_memory_map().items()]
@@ -69,14 +62,8 @@ def setup_one_gpu(gpu_id=None):
         raise ValueError("GPU setup must happen before importing TensorFlow")
 
     if gpu_id is None:
-        gpu_id = pick_gpu_lowest_memory()
+        gpu_id = gpu_with_lowest_memory()
 
     print("Picking GPU " + str(gpu_id))
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
-
-
-def setup_no_gpu():
-    if 'tensorflow' in sys.modules:
-        print("Warning, GPU setup must happen before importing TensorFlow")
-    os.environ["CUDA_VISIBLE_DEVICES"] = ''
