@@ -10,7 +10,7 @@ def stack_images_horizontally(file_names, save_file=None):
     widths, heights = zip(*(i.size for i in images))
     total_width = sum(widths)
     max_height = max(heights)
-    new_im = Image.new('RGB', (total_width, max_height))
+    new_im = Image.new('RGBA', (total_width, max_height))
 
     x_offset = 0
     for im in images:
@@ -34,7 +34,7 @@ def stack_images_in_square_grid(file_names, save_file=None):
     im_per_row = int(np.floor(np.sqrt(n_images)))
     total_width = im_per_row * max_width
     total_height = im_per_row * max_height
-    new_im = Image.new('RGB', (total_width, total_height))
+    new_im = Image.new('RGBA', (total_width, total_height))
 
     x_offset = 0
     y_offset = 0
