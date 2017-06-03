@@ -36,6 +36,7 @@ def select_first_last_and_k(in_list, k):
 
 def indices_in_iterable(target, queries):
     '''Find index of each item of the 'queries' in the 'target'.
+    If a query does not exist in the target, the corresponding index is set to -1.
     '''
 
     if len(np.unique(np.array(target, dtype=object))) != len(target):
