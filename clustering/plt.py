@@ -60,6 +60,7 @@ def plot_2d_embedding_in_grid_greedy_way(two_dim_emb, image_files, big_dim=2500,
     mod = np.mod
     x = _scale_2d_embedding(two_dim_emb)
     out_image = np.zeros((big_dim, big_dim, 3), dtype='uint8')
+#     out_image = np.ones((big_dim, big_dim, 3), dtype='uint8') * 255
 
     for i, im_file in enumerate(image_files):
         #  Determine location on grid
@@ -69,9 +70,11 @@ def plot_2d_embedding_in_grid_greedy_way(two_dim_emb, image_files, big_dim=2500,
         b = int(b - mod(b - 1, small_dim) + 1)
 
         if out_image[a, b, 0] != 0:
+#         if out_image[a, b, 0] != 255:
             continue    # Spot already filled.
 
         fig = cv2.imread(im_file)
+#         fig = read_transparent_png(im_file)
         fig = cv2.resize(fig, (small_dim, small_dim))
 
         try:
