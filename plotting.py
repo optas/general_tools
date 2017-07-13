@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 from PIL import Image
-
+from . arrays import is_true
 
 def stack_images_horizontally(file_names, save_file=None):
     ''' Opens the images corresponding to file_names and
@@ -78,3 +78,12 @@ def read_transparent_png(filename):
     white = white_background_image.astype(np.float32) * (1 - alpha_factor)
     final_image = base + white
     return final_image.astype(np.uint8)
+
+
+def rgb_to_hex_string(r, g, b):
+    all_ints = is_true.is_integer(r) and is_true.is_integer(g) and is_true.is_integer(b)
+    in_range = np.all(np.array([r, g, b]) <= 255) and np.all(np.array([r, g, b]) >= 0)
+    if not all_ints or not in_range:
+        raise ValueError('Expects integers in [0, 255]')
+
+    return "#{0:02x}{1:02x}{2:02x}".format(int(r), int(g), int(b))
