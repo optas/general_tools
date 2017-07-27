@@ -12,6 +12,11 @@ def sort_dict_by_key(in_dict, reverse=False):
     return sorted(in_dict.items(), key=operator.itemgetter(1), reverse=reverse)
 
 
+def invert_dictionary(d):
+    inv_map = {v: k for k, v in d.iteritems()}
+    return inv_map
+
+
 def iterate_in_chunks(l, n):
     '''Yield successive 'n'-sized chunks from iterable 'l'.
     Note: last chunk will be smaller than l if n doesn't divide l perfectly.
