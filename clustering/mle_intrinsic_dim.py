@@ -59,7 +59,7 @@ def intrinsic_dimension(X, k1=6, k2=12, estimator='levina', trafo='var', mem_thr
     References
     ----------
         [1] Levina, E., & Bickel, P. (2004). Maximum likelihood estimation of
-        intrinsic dimension. Advances in Neural Information 17, 777–784. 
+        intrinsic dimension. Advances in Neural Information 17, 777–784.
         http://doi.org/10.2307/2335172
         [2] http://www.inference.phy.cam.ac.uk/mackay/dimension/
     """
