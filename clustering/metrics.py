@@ -18,7 +18,7 @@ def bench_clustering(estimator, name, gt_labels, verbose=True):
     '''    
     if verbose:
         print ('%30s   %4s   %4s   %4s   %4s   %4s' % (' ', 'Homog', 'Compl', 'V-Mea', 'A-Ran', 'A-Mut') )
-        
+
     print('%30s   %.3f   %.3f   %.3f   %.3f   %.3f'
           % (name,
              metrics.homogeneity_score(gt_labels, estimator.labels_),
