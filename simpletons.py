@@ -9,6 +9,10 @@ import numpy as np
 
 
 def sort_dict_by_key(in_dict, reverse=False):
+    return sorted(in_dict.items(), key=operator.itemgetter(0), reverse=reverse)
+
+
+def sort_dict_by_val(in_dict, reverse=False):
     return sorted(in_dict.items(), key=operator.itemgetter(1), reverse=reverse)
 
 

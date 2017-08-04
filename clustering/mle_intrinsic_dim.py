@@ -34,8 +34,8 @@ def intrinsic_dimension(X, k1=6, k2=12, estimator='levina', trafo='var', mem_thr
         End of neighborhood range to search in.
         
     estimator : {'levina', 'mackay'}, optional (default: 'levina')
-        Determine the summation strategy: see [2]_.
-            
+        Determine the summation strategy: see [2].
+
     trafo : {None, 'std', 'var'}, optional (default: 'var')
         Transform vector data.
 
@@ -90,7 +90,7 @@ def intrinsic_dimension(X, k1=6, k2=12, estimator='levina', trafo='var', mem_thr
     X2 = (X**2).sum(1)
 
     if n <= mem_threshold:   # speed-memory trade-off
-        distance = X2.reshape(-1, 1) + X2 - 2 * np.dot(X, X.T)  #2x br.cast
+        distance = X2.reshape(-1, 1) + X2 - 2 * np.dot(X, X.T)  # 2x br.cast
         distance.sort(1)
         # Replace invalid values with a small number
         distance[distance < 0] = 1e-7
