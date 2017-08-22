@@ -60,3 +60,13 @@ def indices_in_iterable(target, queries):
             mapping.append(d[name])
     mapping = np.array(mapping)
     return np.array(mapping)
+
+
+def are_disjoint_sets(sets):
+    union = set()
+    for s in sets:
+        for x in s:
+            if x in union:
+                return False
+            union.add(x)
+    return True
