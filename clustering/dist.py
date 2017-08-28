@@ -45,6 +45,7 @@ def incremental_farthest_sampling(all_pdists, k, exluded_points=None, seed=None)
     for _ in range(k - 1):
         max_dist = -1
         next_point = -1
+
         for p in remaining_points:
             min_d = np.min(all_pdists[p, solution_set])
             if min_d > max_dist:
