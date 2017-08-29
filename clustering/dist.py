@@ -63,6 +63,8 @@ def incremental_farthest_sampling(all_pdists, k, exluded_points=None, seed=None)
 
 
 def evaluate_solution(solution_set):
+
     distance = lambda a, b: np.linalg.norm(np.array(a) - np.array(b))
+
     return sum([distance(a, b) for a, b in zip(solution_set[:-1], solution_set[1:])])
 
