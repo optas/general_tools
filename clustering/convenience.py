@@ -16,6 +16,8 @@ def find_nearest_neighbors(X, Y=None, k=10):
 
     If Y is not provided, it returns the k neighbors of each data point in the X dataset.
     Otherwise, it returns the k neighbors of X in Y.
+
+    Input: X, Y: [n_samples, n_features]
     '''
     s = 0
     if Y is None:
