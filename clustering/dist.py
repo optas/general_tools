@@ -1,13 +1,14 @@
 '''
-Created on Aug 26, 2017
+Created on August 26, 2017
 
 @author: optas
 '''
 
 import numpy as np
+from numpy import dtype
 
 
-def index_in_consdensed_dist_matrix(i, j, n_points):
+def index_in_condensed_dist_matrix(i, j, n_points):
     '''As is customary, functions computing pairwise distances (like scipy.spatial.pdist) return an upper triangular
     distance matrix in a condensed form to save space. This function given the (i,j) indices of the elements
     for which the distance is requested, computes the corresponding index in the condensed distance matrix.
@@ -24,6 +25,15 @@ def index_in_consdensed_dist_matrix(i, j, n_points):
         index = n_points * i - i * (i + 1) / 2 + j - 1 - i
 
     return index
+
+
+def condensed_form_to_square_form(condensed_data, square_dim, dtype=np.float32):
+    ''' does it much faster than numpy.squareform
+    '''
+    square = np.zeros(shape=(square_dim, square_dim), dtype=dtype)
+    square[np.tril_indices(square_dim, -1)] = condensed_data
+    square = square + square.T
+    return square
 
 
 def incremental_farthest_sampling(all_pdists, k, exluded_points=None, seed=None):
