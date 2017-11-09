@@ -3,6 +3,7 @@ import cv2
 from PIL import Image
 from . arrays import is_true
 
+
 def stack_images_horizontally(file_names, save_file=None):
     ''' Opens the images corresponding to file_names and
     creates a new image stacking them horizontally.
