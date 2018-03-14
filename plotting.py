@@ -1,6 +1,8 @@
 import numpy as np
+import matplotlib.cm as cm
 import cv2
 from PIL import Image
+
 from . arrays import is_true
 
 
@@ -88,3 +90,9 @@ def rgb_to_hex_string(r, g, b):
         raise ValueError('Expects integers in [0, 255]')
 
     return "#{0:02x}{1:02x}{2:02x}".format(int(r), int(g), int(b))
+
+
+def scalars_to_colors(float_vals, colormap=cm.get_cmap('jet')):
+    mappable = cm.ScalarMappable(cmap=colormap)
+    colors = mappable.to_rgba(float_vals)
+    return colors
