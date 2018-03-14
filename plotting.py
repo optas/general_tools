@@ -1,5 +1,7 @@
 import numpy as np
+import matplotlib.pylab as plt
 import matplotlib.cm as cm
+from matplotlib import transforms
 import cv2
 from PIL import Image
 
@@ -96,3 +98,23 @@ def scalars_to_colors(float_vals, colormap=cm.get_cmap('jet')):
     mappable = cm.ScalarMappable(cmap=colormap)
     colors = mappable.to_rgba(float_vals)
     return colors
+
+
+def colored_text(in_text, colors, colormap=cm.get_cmap('jet'), **kw):
+    """
+    Input: in_text: (list) of strings
+            colors: same size list/array of floats.
+    """
+    fig = plt.figure(frameon=False)
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.axis('off')
+
+    t = plt.gca().transData
+    colors = scalars_to_colors(colors, colormap)
+
+    for token, col in zip(in_text, colors):
+        text = plt.text(0, 0, ' ' + token + ' ', color=col, transform=t, **kw)
+        text.draw(fig.canvas.get_renderer())
+        ex = text.get_window_extent()
+        t = transforms.offset_copy(text._transform, x=ex.width, units='dots')
+    return fig
