@@ -21,6 +21,12 @@ def invert_dictionary(d):
     return inv_map
 
 
+def merge_two_dicts(x, y):
+    z = x.copy()   # Start with x's keys and values.
+    z.update(y)    # Modifies z with y's keys and values & returns None.
+    return z
+
+
 def iterate_in_chunks(l, n):
     '''Yield successive 'n'-sized chunks from iterable 'l'.
     Note: last chunk will be smaller than l if n doesn't divide l perfectly.
