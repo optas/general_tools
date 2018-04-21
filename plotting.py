@@ -100,24 +100,24 @@ def scalars_to_colors(float_vals, colormap=cm.get_cmap('jet')):
     return colors
 
 
-def colored_text(in_text, scores=None, colors=None, colormap=cm.get_cmap('jet'), **kw):
+def colored_text(in_text, scores=None, colors=None, figsize=(1, 10), colormap=cm.get_cmap('jet'), **kw):
     """
     Input: in_text: (list) of strings
             scores: same size list/array of floats, if None: colors arguement must be not None.
             colors: if not None, it will be used instead of scores.
     """
-    fig = plt.figure(frameon=False)
+    fig = plt.figure(frameon=False, figsize=(2, 2))
     ax = fig.add_axes([0, 0, 1, 1])
     ax.axis('off')
 
     t = plt.gca().transData
-    
-    if colors is None:        
+
+    if colors is None:
         colors = scalars_to_colors(scores, colormap)
-        
-    for token, col in zip(in_text, colors):                
-        text = plt.text(0, 0, ' ' + token + ' ', color=col, transform=t, **kw)                
+
+    for token, col in zip(in_text, colors):
+        text = plt.text(0, 0, ' ' + token + ' ', color=col, transform=t, **kw)
         text.draw(fig.canvas.get_renderer())
         ex = text.get_window_extent()
-        t = transforms.offset_copy(text._transform, x=ex.width, units='dots')        
+        t = transforms.offset_copy(text._transform, x=ex.width, units='dots')
     return fig
