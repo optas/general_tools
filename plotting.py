@@ -106,7 +106,7 @@ def colored_text(in_text, scores=None, colors=None, figsize=(1, 10), colormap=cm
             scores: same size list/array of floats, if None: colors arguement must be not None.
             colors: if not None, it will be used instead of scores.
     """
-    fig = plt.figure(frameon=False, figsize=(2, 2))
+    fig = plt.figure(frameon=False, figsize=figsize)
     ax = fig.add_axes([0, 0, 1, 1])
     ax.axis('off')
 
