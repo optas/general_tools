@@ -100,7 +100,7 @@ def scalars_to_colors(float_vals, colormap=cm.get_cmap('jet')):
     return colors
 
 
-def colored_text(in_text, scores=None, colors=None, figsize=(1, 10), colormap=cm.get_cmap('jet'), **kw):
+def colored_text(in_text, scores=None, colors=None, figsize=(10, 1), colormap=cm.get_cmap('jet'), **kw):
     """
     Input: in_text: (list) of strings
             scores: same size list/array of floats, if None: colors arguement must be not None.
