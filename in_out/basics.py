@@ -12,7 +12,7 @@ import numpy as np
 import warnings
 import re
 from six.moves import cPickle
-
+from six.moves import range
 
 def pickle_data(file_name, *args):
     '''Using (c)Pickle to save multiple python objects in a single file.
@@ -37,7 +37,7 @@ def unpickle_data(file_name, python2_to_3=False):
     else:
         size = cPickle.load(in_file)
 
-    for _ in xrange(size):
+    for _ in range(size):
         if python2_to_3:
             yield cPickle.load(in_file, encoding='latin1')
         else:
