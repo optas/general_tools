@@ -17,21 +17,32 @@ from six.moves import cPickle
 def pickle_data(file_name, *args):
     '''Using (c)Pickle to save multiple python objects in a single file.
     '''
-    myFile = open(file_name, 'wb')
-    cPickle.dump(len(args), myFile, protocol=2)
+    out_file = open(file_name, 'wb')
+    cPickle.dump(len(args), out_file, protocol=2)
     for item in args:
-        cPickle.dump(item, myFile, protocol=2)
-    myFile.close()
+        cPickle.dump(item, out_file, protocol=2)
+    out_file.close()
 
 
-def unpickle_data(file_name):
+def unpickle_data(file_name, python2_to_3=False):
     '''Restore data previously saved with pickle_data().
+    Note:
+        python2_to_3 (if True): https://stackoverflow.com/questions/28218466/unpickling-a-python-2-object-with-python-3
     '''
-    inFile = open(file_name, 'rb')
-    size = cPickle.load(inFile)
+    in_file = open(file_name, 'rb')
+    if python2_to_3:
+        warnings.warn('Reading saved in 2 to 3: ensure later decoding is lati1.')
+    if python2_to_3:
+        size = cPickle.load(in_file, encoding='latin1')
+    else:
+        size = cPickle.load(in_file)
+
     for _ in xrange(size):
-        yield cPickle.load(inFile)
-    inFile.close()
+        if python2_to_3:
+            yield cPickle.load(in_file, encoding='latin1')
+        else:
+            yield cPickle.load(in_file)
+    in_file.close()
 
 
 def create_dir(dir_path):
