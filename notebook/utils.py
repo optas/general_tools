@@ -17,4 +17,5 @@ def mnemonics():
     s += '2. Use plotly: from plotly.offline import init_notebook_mode\n init_notebook_mode(connected=True)\n'
     s += '3. Turn off plotting. plt.ioff() and plt.close() in for-loop.'
     s += '4. Debugger set brkpoint: import ipdb; ipdb.set_trace()'
+    s += '5. Reset jupyter\'s signature database: cd $(jupyter --data-dir); rm nbsignatures.db'
     print s
