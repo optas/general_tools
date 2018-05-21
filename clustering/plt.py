@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import cv2
 from PIL import Image
+from general_tools.plotting import read_transparent_png
 
 
 def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', cmap=plt.cm.Blues, figsize=(5, 5),
@@ -49,7 +50,7 @@ def _scale_2d_embedding(two_dim_emb):
     return two_dim_emb
 
 
-def plot_2d_embedding_in_grid_greedy_way(two_dim_emb, image_files, big_dim=2500, small_dim=200, save_file=None):
+def plot_2d_embedding_in_grid_greedy_way(two_dim_emb, image_files, big_dim=2500, small_dim=200, save_file=None, transparent=True):
     '''
     Input:
         two_dim_emb: (N x 2) numpy array: arbitrary 2-D embedding of data.
@@ -60,25 +61,30 @@ def plot_2d_embedding_in_grid_greedy_way(two_dim_emb, image_files, big_dim=2500,
     '''
     ceil = np.ceil
     mod = np.mod
+    floor = np.floor
     x = _scale_2d_embedding(two_dim_emb)
-    out_image = np.zeros((big_dim, big_dim, 3), dtype='uint8')
-#     out_image = np.ones((big_dim, big_dim, 3), dtype='uint8') * 255
-
+    out_image = np.ones((big_dim, big_dim, 3), dtype='uint8')
+    
+    if transparent:
+        occupy_val = 255
+        im_loader = read_transparent_png
+    else:
+        occupy_val = 0
+        im_loader = cv2.imread
+            
+    out_image *= occupy_val 
     for i, im_file in enumerate(image_files):
         #  Determine location on grid
         a = ceil(x[i, 0] * (big_dim - small_dim) + 1)
         b = ceil(x[i, 1] * (big_dim - small_dim) + 1)
-        a = int(a - mod(a - 1, small_dim) + 1)
-        b = int(b - mod(b - 1, small_dim) + 1)
-
-        if out_image[a, b, 0] != 0:
-#         if out_image[a, b, 0] != 255:
-            continue    # Spot already filled.
-
-        fig = cv2.imread(im_file)
-#         fig = read_transparent_png(im_file)
+        a = int(a - mod(a - 1, small_dim) - 1)
+        b = int(b - mod(b - 1, small_dim) - 1)
+                
+        if out_image[a, b, 0] != occupy_val:
+            continue    # Spot already filled (drop=>greedy).
+        
+        fig = im_loader(im_file)
         fig = cv2.resize(fig, (small_dim, small_dim))
-
         try:
             out_image[a:a + small_dim, b:b + small_dim, :] = fig
         except:
@@ -89,8 +95,9 @@ def plot_2d_embedding_in_grid_greedy_way(two_dim_emb, image_files, big_dim=2500,
     if save_file is not None:
         im = Image.fromarray(out_image)
         im.save(save_file)
-
+    
     return out_image
+
 
 
 def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, small_dim=200, save_file=None):
