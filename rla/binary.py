@@ -1,6 +1,7 @@
 '''
 Functions for working with (random) binary variables.
 '''
+import numpy as np
 
 def binary_matrix(shape, one_prob):
     ''' Create a random binary variable.
