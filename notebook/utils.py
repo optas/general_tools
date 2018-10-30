@@ -5,6 +5,7 @@ Created on Apr 27, 2017
 '''
 import subprocess
 import warnings
+import socket
 
 def run_command(cmd):
     """Run command, return output as string."""
@@ -55,3 +56,14 @@ def mnemonics():
     ]
     for i, r in enumerate(rules):
         print str(i) + '.\t', r + '\n'
+
+def top_data_dir():
+    host_name = socket.gethostname()
+    # Define location of data-files based on hostname.
+    if host_name.startswith('orion'):
+        prefix = '/orions4-zfs/projects/optas/DATA'
+    elif host_name.startswith('aetos'):
+        prefix = '/home/optas/DATA'
+    else:
+        prefix = '/'
+    return prefix
