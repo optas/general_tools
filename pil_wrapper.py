@@ -16,7 +16,8 @@ def square_image(img_file, desired_size, im_type='RGB'):
     try:
         image = Image.open(img_file)
     except IOError:
-            print "Cannot open image-file '%s'" % img_file
+        print "Cannot open image-file '%s'" % img_file
+        return
             
     image.thumbnail((desired_size, desired_size), Image.ANTIALIAS)
 
