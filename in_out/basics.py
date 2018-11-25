@@ -153,6 +153,7 @@ def files_in_subdirs(top_dir, search_pattern):
             if regex.search(full_name):
                 yield full_name
 
+                
 def immediate_subdirectories(top_dir, full_path=True):
     dir_names = [name for name in os.listdir(top_dir) if os.path.isdir(os.path.join(top_dir, name))]
     if full_path:

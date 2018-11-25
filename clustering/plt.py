@@ -10,7 +10,7 @@ import matplotlib.pylab as plt
 import cv2
 from PIL import Image
 from general_tools.plotting import read_transparent_png
-
+from sklearn.manifold import TSNE
 
 def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', cmap=plt.cm.Blues, figsize=(10, 10), fontsize=20, save_file=None, plt_nums=False):
     '''This function prints and plots the confusion matrix.'''
@@ -44,6 +44,36 @@ def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix'
         plt.savefig(save_file)
 
 
+def plot_tsne(embedding, colors=None, words=None, figsize=(20, 20), scatter_size=20, **tsne_kwargs):
+    '''Creates and TSNE model and plots it. Works only with 2D. TODO. Fix to work 3D TSNE.
+    Example:
+    tsne_kwargs={'perplexity':40, 'random_state': 42}
+    m, f = plot_tsne(embediing, color=['r','r','r','r','b'], words=['a','b',3,4,5], **tsne_kwargs);
+    '''
+    # TSNE defaults
+    for key, val in zip(['init', 'n_iter', 'random_state'], ['pca', 2500, None]):
+        if key not in tsne_kwargs:
+            tsne_kwargs[key] = val
+    
+    tsne_model = TSNE(**tsne_kwargs)
+    print tsne_model
+    
+    new_emb = tsne_model.fit_transform(embedding)
+    n_ex = len(new_emb)
+        
+    plt.figure(figsize=figsize)
+    if colors is None:
+        colors = ['b'] * n_ex
+        
+    fig = plt.figure()
+    for i in range(n_ex):        
+        plt.scatter(new_emb[i, 0], new_emb[i, 1], c=colors[i], s=scatter_size)
+        if words is not None:
+            plt.annotate(words[i], xy=(new_emb[i, 0], new_emb[i, 1]), xytext=(5, 2),
+                         textcoords='offset points', ha='right', va='bottom')
+    return tsne_model, fig
+        
+        
 def _scale_2d_embedding(two_dim_emb):
     two_dim_emb -= np.min(two_dim_emb, axis=0)  # scale x-y in [0,1]
     two_dim_emb /= np.max(two_dim_emb, axis=0)
