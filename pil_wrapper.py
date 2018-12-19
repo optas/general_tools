@@ -7,7 +7,7 @@ Created on November 17, 2018
 from PIL import Image
 
 
-def square_image(img_file, desired_size, im_type='RGB'):
+def square_image(img_file, desired_size, im_type='RGB', bg='white'):
     ''' Will load and resize the image to a square one, while keeping the original
     aspect ratio and add padding if necessary to achieve this.
     Input:
@@ -22,7 +22,7 @@ def square_image(img_file, desired_size, im_type='RGB'):
     image.thumbnail((desired_size, desired_size), Image.ANTIALIAS)
 
     new_size = image.size
-    new_im = Image.new(im_type, (desired_size, desired_size))
+    new_im = Image.new(im_type, (desired_size, desired_size), color=bg)
     new_im.paste(image, ((desired_size - new_size[0]) // 2, 
                          (desired_size - new_size[1]) // 2))
 
