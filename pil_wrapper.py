@@ -28,3 +28,5 @@ def square_image(img_file, desired_size, im_type='RGB', bg='white'):
 
     assert(new_im.size == (desired_size, desired_size))
     return new_im
+
+# TODO def scale_aspect_ratio_preserving:
