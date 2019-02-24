@@ -11,7 +11,7 @@ def square_image(img_file, desired_size, im_type='RGB', bg='white'):
     ''' Will load and resize the image to a square one, while keeping the original
     aspect ratio and add padding if necessary to achieve this.
     Input:
-        im_type: (string) PIL compatible image-type, e.e.g, RGBA, LA, L.
+        im_type: (string) PIL compatible image-type, e.g, RGBA, LA, L.
     '''
     try:
         image = Image.open(img_file)
@@ -29,4 +29,36 @@ def square_image(img_file, desired_size, im_type='RGB', bg='white'):
     assert(new_im.size == (desired_size, desired_size))
     return new_im
 
+def alpha_to_rgb(image, bg_color=(255, 255, 255)):
+    """Convert RGBA Image to RGB.
+    Source: http://stackoverflow.com/a/9459208/284318
+
+    Keyword Arguments:
+    image -- PIL RGBA Image object
+    bg_color -- Tuple r, g, b (default 255, 255, 255)
+    """
+    image.load()  # needed for split()
+    background = Image.new('RGB', image.size, bg_color)
+    background.paste(image, mask=image.split()[3])  # 3 is the alpha channel
+    return background
+
 # TODO def scale_aspect_ratio_preserving:
+
+# def png_img_to_rgb(img_file):
+#     im = Image.open(img_file)    
+#     IM = np.array(im, dtype=np.float32)
+#     IM /=  255.0
+#     print 'y'
+#     all_white = np.ones((224, 224), np.float32)
+    
+#     R = IM[:,:, 0]
+#     G = IM[:,:, 1]
+#     B = IM[:,:, 2]
+#     A = IM[:,:, 3]
+
+#     R = R * A  + (1-A * all_white)
+#     G = G * A  + (1-A * all_white)
+#     B = B * A  + (1-A * all_white)
+#     im = np.stack([R, G, B])
+#     im = im.transpose([1, 2, 0])
+#     return im
