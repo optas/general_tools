@@ -1,7 +1,7 @@
 '''
 Created on Apr 21, 2017
 
-@author: optas
+@author: Achli(optas) Panos
 
 Nvidia-smi GPU memory parsing.
 Tested on nvidia-smi 370.23

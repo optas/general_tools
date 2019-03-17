@@ -1,7 +1,7 @@
 '''
 Created on Apr 27, 2017
 
-@author: optas
+@author: Achli(optas) Panos
 '''
 import subprocess
 import warnings
@@ -61,7 +61,7 @@ def top_data_dir():
     host_name = socket.gethostname()
     # Define location of data-files based on hostname.
     if host_name.startswith('orion'):
-        prefix = '/orions4-zfs/projects/optas/DATA'
+        prefix = '/orion/u/optas/DATA'
     elif host_name.startswith('aetos'):
         prefix = '/home/optas/DATA'
     else:

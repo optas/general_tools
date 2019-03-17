@@ -1,7 +1,7 @@
 '''
 Created on Apr 27, 2017
 
-@author: optas
+@author: Achli(optas) Panos
 '''
 
 import tensorflow as tf
