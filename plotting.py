@@ -1,7 +1,11 @@
+__author__ = "Panos Achlioptas"
+
 import numpy as np
 import matplotlib.pylab as plt
 import matplotlib.cm as cm
+import matplotlib.colors as mcolors
 from matplotlib import transforms
+
 import cv2
 from PIL import Image
 
@@ -94,13 +98,33 @@ def rgb_to_hex_string(r, g, b):
     return "#{0:02x}{1:02x}{2:02x}".format(int(r), int(g), int(b))
 
 
-def scalars_to_colors(float_vals, colormap=cm.get_cmap('jet')):
-    mappable = cm.ScalarMappable(cmap=colormap)
+def scalars_to_colors(float_vals, colormap='jet'):
+    cmap = cm.get_cmap(colormap)
+    mappable = cm.ScalarMappable(cmap=cmap)
     colors = mappable.to_rgba(float_vals)
     return colors
 
 
-def colored_text(in_text, scores=None, colors=None, figsize=(10, 0.5), colormap=cm.get_cmap('jet'), **kw):
+def colored_text(in_text, scores=None, colors=None, colormap='jet', for_html=False, space_char=' '):
+    if colors is None:
+        colors = scalars_to_colors(scores, colormap)
+        
+    codes = []
+    for c in colors:
+        codes.append(mcolors.to_hex(c))   # color as hex.
+    
+    res = ''
+    if for_html:
+        for token, code in zip(in_text, codes):
+            if len(res) > 0:
+                res += space_char # add space                
+            res += '<span style="color:{};"> {} </span>'.format(code, token)
+    else:
+        res = codes
+    return res
+
+
+def colored_text_to_figure(in_text, scores=None, colors=None, figsize=(10, 0.5), colormap='jet', **kw):
     """
     Input: in_text: (list) of strings
             scores: same size list/array of floats, if None: colors arguement must be not None.
