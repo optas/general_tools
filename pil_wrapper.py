@@ -42,6 +42,22 @@ def alpha_to_rgb(image, bg_color=(255, 255, 255)):
     background.paste(image, mask=image.split()[3])  # 3 is the alpha channel
     return background
 
+def stack_images_horizontally(images, x_pad=0, bg_color='white'):
+    ''' 
+        images: list with PIL Images
+        x_pad: pixels separating each stacked image        
+    '''    
+    widths, heights = zip(*(i.size for i in images))
+    extra_pixels = (len(images) - 1) * x_pad
+    total_width = sum(widths) + extra_pixels
+    max_height = max(heights)
+    new_im = Image.new('RGB', (total_width, max_height), color=bg_color)
+    x_offset = 0 # first image is stack left-most
+    for im in images:
+        new_im.paste(im, (x_offset, 0))
+        x_offset += im.size[0] + x_pad
+    return new_im
+
 # TODO def scale_aspect_ratio_preserving:
 
 # def png_img_to_rgb(img_file):
