@@ -13,7 +13,7 @@ See also:  http://stackoverflow.com/a/41638727/419116
 import re
 import os
 import sys
-from .utils import run_command
+from . utils import run_command
 
 
 def list_available_gpus():

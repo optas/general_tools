@@ -33,7 +33,7 @@ def grep_files(pattern, top_dir='./', match_whole_word=True, options=None):
         cmd += ' ' + options
         #enclose_with_quotes(options)
     
-    print cmd
+    print(cmd)
     
     
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
@@ -42,7 +42,7 @@ def grep_files(pattern, top_dir='./', match_whole_word=True, options=None):
     if err is not None:
         warnings.warn(err) 
         
-    print out
+    print(out)
     
     
 def mnemonics():
@@ -55,7 +55,7 @@ def mnemonics():
     'Plot multiple images inside single cell.\nfrom IPython.display import display; display(Fig1), display(Fig2)'        
     ]
     for i, r in enumerate(rules):
-        print str(i) + '.\t', r + '\n'
+        print(str(i) + '.\t', r + '\n')
 
 def top_data_dir():
     host_name = socket.gethostname()

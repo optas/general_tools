@@ -58,8 +58,8 @@ def stack_images_horizontally(images, x_pad=0, bg_color='white'):
         x_offset += im.size[0] + x_pad
     return new_im
 
-# TODO def scale_aspect_ratio_preserving:
-
+    
+    
 # def png_img_to_rgb(img_file):
 #     im = Image.open(img_file)    
 #     IM = np.array(im, dtype=np.float32)
