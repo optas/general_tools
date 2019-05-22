@@ -3,11 +3,7 @@ Created on November 8, 2016
 
 @author: optas
 '''
-from __future__ import division
-from __future__ import print_function
 
-from builtins import range
-from past.utils import old_div
 import numpy as np
 from sklearn import metrics
 from scipy.spatial.distance import pdist, squareform
@@ -35,7 +31,7 @@ def bench_clustering(estimator, name, gt_labels, verbose=True):
 def kmeans_cluster_pseudo_similarity(estimator):
     # similarity is not symmetric. also it is bound in 0 to 1.
     cluster_dists = squareform(pdist(estimator.cluster_centers_))
-    cluster_dists = (old_div(cluster_dists.T, np.max(cluster_dists, 0))).T   # For each cluster max distance is 1    
+    cluster_dists = (cluster_dists.T / np.max(cluster_dists, 0)).T   # For each cluster max distance is 1    
     cluster_sims = 1.0 - cluster_dists
 #     cluster_probs = (cluster_sims.T / np.sum(cluster_sims, 0)).T
     return cluster_sims
@@ -55,7 +51,7 @@ def spectral_cluster_pseudo_similarity(estimator):
         similarity[c, c] = np.sum((labels == c) * affinity * (labels == c).T) / 2.0
         
     similarity += similarity.T
-    similarity = (old_div(similarity.T, np.max(similarity, 0))).T   # For each cluster max similarity is 1    
+    similarity = (similarity.T / np.max(similarity, 0)).T   # For each cluster max similarity is 1    
     
     return similarity
 

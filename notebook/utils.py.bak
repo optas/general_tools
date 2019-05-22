@@ -3,8 +3,6 @@ Created on Apr 27, 2017
 
 @author: Achli(optas) Panos
 '''
-from __future__ import print_function
-from builtins import str
 import subprocess
 import warnings
 import socket
@@ -57,7 +55,7 @@ def mnemonics():
     'Plot multiple images inside single cell.\nfrom IPython.display import display; display(Fig1), display(Fig2)'        
     ]
     for i, r in enumerate(rules):
-        print((str(i) + '.\t', r + '\n'))
+        print(str(i) + '.\t', r + '\n')
 
 def top_data_dir():
     host_name = socket.gethostname()

@@ -13,11 +13,7 @@ Reference:  E. Levina and P.J. Bickel (2005).
  "Maximum Likelihood Estimation  of Intrinsic Dimension."  
  In Advances in NIPS 17, Eds. L. K. Saul, Y. Weiss, L. Bottou. 
 """
-from __future__ import division
-from __future__ import print_function
 
-from builtins import range
-from past.utils import old_div
 import numpy as np
 
 
@@ -110,7 +106,7 @@ def intrinsic_dimension(X, k1=6, k2=12, estimator='levina', trafo='var', mem_thr
     # Compute the ML estimate
     S = np.cumsum(knnmatrix, 1)
     indexk = np.arange(k1, k2 + 1)
-    dhat = old_div(-(indexk - 2), (S[:, k1 - 1:k2] - knnmatrix[:, k1 - 1:k2] * indexk))
+    dhat = -(indexk - 2) / (S[:, k1 - 1:k2] - knnmatrix[:, k1 - 1:k2] * indexk)
 
     if estimator == 'levina':
         # Average over estimates and over values of k

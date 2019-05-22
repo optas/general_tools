@@ -5,10 +5,7 @@ Created on January 17, 2017
 @contact:   pachlioptas @ gmail.com
 @copyright: You are free to use, change, or redistribute this code in any way you want for non-commercial purposes.
 '''
-from __future__ import division
 
-from builtins import range
-from past.utils import old_div
 import numpy as np
 from scipy.stats import mode
 from scipy import signal
@@ -25,7 +22,7 @@ def smooth_normal_outliers(array, dev):
     stds = np.std(array, axis=1)
     means = np.mean(array, axis=1)
     line_elems = np.arange(array.shape[1])
-    for i in range(array.shape[0]):
+    for i in xrange(array.shape[0]):
         outliers = abs(array[i]) > dev * stds[i] + means[i]
         inliers = np.setdiff1d(line_elems, outliers, assume_unique=False)
         mu_i = np.mean(array[i, inliers])
@@ -40,7 +37,7 @@ def find_non_homogeneous_vectors(array, thres):
     index = []
     n = float(array.shape[1])
     for i, vec in enumerate(array):
-        frac = old_div(mode(vec)[1][0], n)
+        frac = mode(vec)[1][0] / n
         if frac < thres:
             index.append(i)
     return index
@@ -79,10 +76,10 @@ def smooth(x, window_len=11, window='hanning'):
     """
 
     if x.ndim != 1:
-        raise ValueError("smooth only accepts 1 dimension arrays.")
+        raise ValueError, "smooth only accepts 1 dimension arrays."
 
     if x.size < window_len:
-        raise ValueError("Input vector needs to be bigger than window size.")
+        raise ValueError, "Input vector needs to be bigger than window size."
 
 
     if window_len<3:
@@ -90,7 +87,7 @@ def smooth(x, window_len=11, window='hanning'):
 
 
     if not window in ['flat', 'hanning', 'hamming', 'bartlett', 'blackman']:
-        raise ValueError("Window is on of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'")
+        raise ValueError, "Window is on of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'"
 
 
     s=np.r_[x[window_len-1:0:-1],x,x[-2:-window_len-1:-1]]
@@ -100,7 +97,7 @@ def smooth(x, window_len=11, window='hanning'):
     else:
         w=eval('numpy.'+window+'(window_len)')
 
-    y=np.convolve(old_div(w,w.sum()),s,mode='valid')
+    y=np.convolve(w/w.sum(),s,mode='valid')
     return y
 
 def window_average(array, window_size, mode='valid'):

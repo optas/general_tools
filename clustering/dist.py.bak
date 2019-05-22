@@ -3,11 +3,7 @@ Created on August 26, 2017
 
 @author: optas
 '''
-from __future__ import division
 
-from builtins import zip
-from builtins import range
-from past.utils import old_div
 import numpy as np
 from numpy import dtype
 
@@ -24,9 +20,9 @@ def index_in_condensed_dist_matrix(i, j, n_points):
     if i == j:
         raise ValueError('Condensed Matrix does not carry self-distances, which are assumed to be zero.')
     if i > j:
-        index = n_points * j - old_div(j * (j + 1), 2) + i - 1 - j
+        index = n_points * j - j * (j + 1) / 2 + i - 1 - j
     else:
-        index = n_points * i - old_div(i * (i + 1), 2) + j - 1 - i
+        index = n_points * i - i * (i + 1) / 2 + j - 1 - i
 
     return index
 

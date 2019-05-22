@@ -3,9 +3,7 @@ Created on November 17, 2018
 
 @author: optas
 '''
-from __future__ import print_function
 
-from builtins import zip
 from PIL import Image
 
 
@@ -18,7 +16,7 @@ def square_image(img_file, desired_size, im_type='RGB', bg='white'):
     try:
         image = Image.open(img_file)
     except IOError:
-        print("Cannot open image-file '%s'" % img_file)
+        print "Cannot open image-file '%s'" % img_file
         return
             
     image.thumbnail((desired_size, desired_size), Image.ANTIALIAS)
@@ -49,7 +47,7 @@ def stack_images_horizontally(images, x_pad=0, bg_color='white'):
         images: list with PIL Images
         x_pad: pixels separating each stacked image        
     '''    
-    widths, heights = list(zip(*(i.size for i in images)))
+    widths, heights = zip(*(i.size for i in images))
     extra_pixels = (len(images) - 1) * x_pad
     total_width = sum(widths) + extra_pixels
     max_height = max(heights)

@@ -3,12 +3,7 @@ Created on December 26, 2016
 
 @author: optas
 '''
-from __future__ import division
-from __future__ import print_function
 
-from builtins import zip
-from builtins import range
-from past.utils import old_div
 import itertools
 import numpy as np
 import matplotlib.pylab as plt
@@ -29,7 +24,7 @@ def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix'
     plt.yticks(tick_marks, classes)
 
     if normalize:
-        cm = old_div(cm.astype('float'), cm.sum(axis=1)[:, np.newaxis])
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
         print("Normalized confusion matrix")
     else:
         print('Confusion matrix, without normalization')
@@ -38,7 +33,7 @@ def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix'
 
     if plt_nums:
         thresh = cm.max() / 2.
-        for i, j in itertools.product(list(range(cm.shape[0])), list(range(cm.shape[1]))):
+        for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
             plt.text(j, i, cm[i, j], horizontalalignment="center", color="white" if cm[i, j] > thresh else "black")
 
     plt.xlabel('Predicted label', fontsize=fontsize)
@@ -61,7 +56,7 @@ def plot_tsne(embedding, colors=None, words=None, figsize=(20, 20), scatter_size
             tsne_kwargs[key] = val
     
     tsne_model = TSNE(**tsne_kwargs)
-    print(tsne_model)
+    print tsne_model
     
     new_emb = tsne_model.fit_transform(embedding)
     n_ex = len(new_emb)
@@ -123,8 +118,8 @@ def plot_2d_embedding_in_grid_greedy_way(two_dim_emb, image_files, big_dim=2500,
         try:
             out_image[a:a + small_dim, b:b + small_dim, :] = fig
         except:
-                print('the code here fails. fix it.')
-                print(a)
+                print 'the code here fails. fix it.'
+                print a
         continue
 
     if save_file is not None:
@@ -145,8 +140,8 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
 
     grid_2_img = np.ones((xnum, ynum), dtype='int') * -1
     res = float(small_dim) / float(big_dim)
-    for i in range(xnum):
-        for j in range(ynum):
+    for i in xrange(xnum):
+        for j in xrange(ynum):
             sorted_indices = np.argsort((x[:, 0] - i * res)**2 + (x[:, 1] - j * res)**2)
             possible = sorted_indices[free[sorted_indices]]
 
@@ -157,8 +152,8 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
             else:
                 break
 
-    for i in range(xnum):
-        for j in range(ynum):
+    for i in xrange(xnum):
+        for j in xrange(ynum):
             if grid_2_img[i, j] > -1:
                 im_file = image_files[grid_2_img[i, j]]
                 fig = cv2.imread(im_file)
@@ -166,8 +161,8 @@ def plot_2d_embedding_in_grid_forceful(two_dim_emb, image_files, big_dim=2500, s
                 try:
                     out_image[i * small_dim:(i + 1) * small_dim, j * small_dim:(j + 1) * small_dim, :] = fig
                 except:
-                    print('the code here fails. fix it.')
-                    print(im_file)
+                    print 'the code here fails. fix it.'
+                    print im_file
                 continue
 
     if save_file is not None:

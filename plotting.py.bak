@@ -1,5 +1,3 @@
-from builtins import zip
-from builtins import map
 __author__ = "Panos Achlioptas"
 
 import numpy as np
@@ -18,8 +16,8 @@ def stack_images_horizontally(file_names, save_file=None):
     ''' Opens the images corresponding to file_names and
     creates a new image stacking them horizontally.
     '''
-    images = list(map(Image.open, file_names))
-    widths, heights = list(zip(*(i.size for i in images)))
+    images = map(Image.open, file_names)
+    widths, heights = zip(*(i.size for i in images))
     total_width = sum(widths)
     max_height = max(heights)
     new_im = Image.new('RGBA', (total_width, max_height))
@@ -38,8 +36,8 @@ def stack_images_in_square_grid(file_names, save_file=None):
     creates a new grid-square image that plots them in individual cells.
     The behavior is as expected when the sizes of the images are the same.
     '''
-    images = list(map(Image.open, file_names))
-    widths, heights = list(zip(*(i.size for i in images)))
+    images = map(Image.open, file_names)
+    widths, heights = zip(*(i.size for i in images))
     max_width = max(widths)
     max_height = max(heights)
     n_images = len(images)

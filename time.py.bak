@@ -1,4 +1,3 @@
-from builtins import str
 import datetime
 
 def timestamp(high_res=False):
