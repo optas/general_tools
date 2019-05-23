@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="optas@aetos2.stanford.edu:22">
+    <serverData>
+      <paths name="optas@aetos2.stanford.edu:22">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/optas/Git_Repos/general_tools" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>

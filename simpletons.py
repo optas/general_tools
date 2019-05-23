@@ -2,7 +2,6 @@
 Created on February 24, 2017
 
 @author: optas
-Test me.
 '''
 
 from builtins import range
