@@ -1,5 +1,6 @@
-from builtins import str
 import datetime
+from builtins import str
+
 
 def timestamp(high_res=False):
     now = datetime.datetime.now()
