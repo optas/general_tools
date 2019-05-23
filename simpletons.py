@@ -1,8 +1,8 @@
-'''
+"""
 Created on February 24, 2017
 
 @author: optas
-'''
+"""
 
 from builtins import range
 import operator
@@ -29,17 +29,17 @@ def merge_two_dicts(x, y):
 
 
 def iterate_in_chunks(l, n):
-    '''Yield successive 'n'-sized chunks from iterable 'l'.
+    """Yield successive 'n'-sized chunks from iterable 'l'.
     Note: last chunk will be smaller than l if n doesn't divide l perfectly.
-    '''
+    """
     for i in range(0, len(l), n):
         yield l[i:i + n]
 
 
 def select_first_last_and_k(in_list, k):
-    '''Select the first and last element of a list among exactly k elements equally spaced
+    """Select the first and last element of a list among exactly k elements equally spaced
     in the in_list[1:-1]
-    '''
+    """
 
     f = in_list[0]
     e = in_list[-1]
