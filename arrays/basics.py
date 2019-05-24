@@ -17,23 +17,27 @@ def unique_rows(array):
     return unique_a.view(array.dtype).reshape((unique_a.shape[0], array.shape[1]))
 
 
-def scale(array, vmin=0, vmax=1):
-    """ linearly rescale array to specific maximum and minimum values.
+def scale(array, v_min=0, v_max=1):
+    """ Linearly rescale array to specific maximum and minimum values.
     """
-    if vmin >= vmax:
+    if v_min >= v_max:
         raise ValueError('vmax must be strictly larger than vmin.')
     
-    amax = np.max(array)
-    amin = np.min(array)
+    a_max = np.max(array)
+    a_min = np.min(array)
     
-    if amax == amin:
+    if a_max == a_min:
         warnings.warn('An array with all values being the same, cannot be scaled')
         return array
         
-    res = vmax - (((vmax - vmin) * (amax - array)) / (amax - amin))
+#     res = vmax - (((vmax - vmin) * (amax - array)) / (amax - amin))
+    
+    w = (v_max - v_min) / (a_max - a_min)
+    b = v_max - w * a_max 
+    res = w * x + b 
      
     
-    cond = np.all(abs(vmax - res) < 10e-5) and np.all(abs(res - vmin) > 10e-5)
+    cond = np.all(abs(v_max - res) < 10e-5) and np.all(abs(res - v_min) > 10e-5)
         
     if not cond:
         warnings.warn('Scaling failed at granulatiry of 10e-5.')
