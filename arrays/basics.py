@@ -37,9 +37,9 @@ def scale(array, v_min=0, v_max=1):
     res = w * x + b 
      
     
-    cond = np.all(abs(v_max - res) < 10e-5) and np.all(abs(res - v_min) > 10e-5)
+    cond = np.all(abs(v_max - res) < 10e-6) and np.all(abs(res - v_min) > 10e-6)
         
     if not cond:
-        warnings.warn('Scaling failed at granulatiry of 10e-5.')
+        warnings.warn('Scaling failed at granulatiry of 10e-6.')
     
     return res
