@@ -1,10 +1,11 @@
-'''
+"""
 Created on September 8, 2017
 
 @author: optas
-'''
+"""
 from __future__ import division
 from past.utils import old_div
+
 import numpy as np
 import warnings
 
@@ -18,19 +19,24 @@ def unique_rows(array):
 
 
 def scale(array, vmin=0, vmax=1):
+    """ scale array to specific maximum and minimum values.
+    """
     if vmin >= vmax:
         raise ValueError('vmax must be strictly bigger than vmin.')
+    
     amax = np.max(array)
     amin = np.min(array)
+    
     if amax == amin:
         warnings.warn('Constant array cannot be scaled')
         return array
+    
     res = vmax - (old_div(((vmax - vmin) * (amax - array)), (amax - amin)))
-
+    
     cond_1 = np.all(abs(vmax - res) < 10e-5) and np.all(abs(res - vmin) > 10e-5)
     cond_2 = abs(np.max(res) - vmax) < 10e-5 and abs(np.min(res) - vmin) < 10e-5
-
+    
     if not (cond_1 or cond_2):
-            warnings.warn('Scaling failed in the accuracy of 10e-5.')
-
+        warnings.warn('Scaling failed in the accuracy of 10e-5.')
+    
     return res
