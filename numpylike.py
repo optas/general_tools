@@ -1,8 +1,9 @@
-'''
+"""
 Created on January 26, 2018
 
 @author: optas
-'''
+"""
+
 from __future__ import division
 
 from past.utils import old_div
