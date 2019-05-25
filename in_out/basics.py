@@ -6,9 +6,6 @@ Created on December 27, 2016
 @copyright: You are free to use, change, or redistribute this code in any way you want for non-commercial purposes.
 '''
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import range
 import os
 import os.path as osp
 import numpy as np
@@ -34,7 +31,7 @@ def unpickle_data(file_name, python2_to_3=False):
     '''
     in_file = open(file_name, 'rb')
     if python2_to_3:
-        warnings.warn('Reading saved in 2 to 3: ensure later decoding is lati1.')
+        warnings.warn('Reading saved in 2 to 3: ensure later decoding is latin1.')
     if python2_to_3:
         size = cPickle.load(in_file, encoding='latin1')
     else:
@@ -70,7 +67,7 @@ def copy_folder_structure(top_dir, out_dir):
         top_dir += os.sep
 
     all_dirs = (dir_name for dir_name, _, _ in os.walk(top_dir))
-    next(all_dirs)     # Exhaust first name which is identical to the top_dir.
+    all_dirs.next()     # Exhaust first name which is identical to the top_dir.
     for d in all_dirs:
         create_dir(osp.join(out_dir, d.replace(top_dir, '')))
 
