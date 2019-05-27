@@ -80,8 +80,6 @@ def resize_image_keep_aspect(image, fixed_dim, force_min=True, resample=Image.AN
     new_width = int((initial_width / ratio))
     new_height = int((initial_height / ratio))
     
-    print (new_width, new_height)
-    
     image = image.resize((new_width, new_height), resample=resample)                     
     return image
     
