@@ -61,6 +61,29 @@ def stack_images_horizontally(images, x_pad=0, bg_color='white'):
     return new_im
 
     
+def resize_image_keep_aspect(image, fixed_dim, force_min=True, resample=Image.ANTIALIAS):
+    """ 
+    The height or the width of the resulting image will  be `fixed_dim`.
+    If force_min, then the side that is smaller will become `fixed_dim`.  
+    """
+    
+    initial_width, initial_height = image.size
+
+    # Take the greater value, and use it for the ratio
+    if force_min:    
+        min_ = min([initial_width, initial_height])
+        ratio = min_ / float(fixed_dim)
+    else:
+        max_ = max([initial_width, initial_height])
+        ratio = max_ / float(fixed_dim)
+        
+    new_width = int((initial_width / ratio))
+    new_height = int((initial_height / ratio))
+    
+    print (new_width, new_height)
+    
+    image = image.resize((new_width, new_height), resample=resample)                     
+    return image
     
 # def png_img_to_rgb(img_file):
 #     im = Image.open(img_file)    
