@@ -1,18 +1,13 @@
-from builtins import zip
-from builtins import map
 __author__ = "Panos Achlioptas"
 
 import numpy as np
 import matplotlib.pylab as plt
-import matplotlib.cm as cm
 import matplotlib.colors as mcolors
+from PIL import Image
 from matplotlib import transforms
 
-import cv2
-from PIL import Image
 
-from . arrays import is_true
-
+from . colors import scalars_to_colors
 
 def stack_images_horizontally(file_names, save_file=None):
     ''' Opens the images corresponding to file_names and
@@ -68,43 +63,6 @@ def stack_images_in_square_grid(file_names, save_file=None):
         new_im.save(save_file)
     return new_im
 
-
-def read_transparent_png(filename):
-    ''' TODO: add docstring
-    SEE https://stackoverflow.com/questions/3803888/opencv-how-to-load-png-images-with-4-channels'''
-
-    image_4channel = cv2.imread(filename, cv2.IMREAD_UNCHANGED)
-    alpha_channel = image_4channel[:, :, 3]
-    rgb_channels = image_4channel[:, :, :3]
-
-    # White Background Image
-    white_background_image = np.ones_like(rgb_channels, dtype=np.uint8) * 255
-
-    # Alpha factor
-    alpha_factor = alpha_channel[:, :, np.newaxis].astype(np.float32) / 255.0
-    alpha_factor = np.concatenate((alpha_factor, alpha_factor, alpha_factor), axis=2)
-
-    # Transparent Image Rendered on White Background
-    base = rgb_channels.astype(np.float32) * alpha_factor
-    white = white_background_image.astype(np.float32) * (1 - alpha_factor)
-    final_image = base + white
-    return final_image.astype(np.uint8)
-
-
-def rgb_to_hex_string(r, g, b):
-    all_ints = is_true.is_integer(r) and is_true.is_integer(g) and is_true.is_integer(b)
-    in_range = np.all(np.array([r, g, b]) <= 255) and np.all(np.array([r, g, b]) >= 0)
-    if not all_ints or not in_range:
-        raise ValueError('Expects integers in [0, 255]')
-
-    return "#{0:02x}{1:02x}{2:02x}".format(int(r), int(g), int(b))
-
-
-def scalars_to_colors(float_vals, colormap='jet'):
-    cmap = cm.get_cmap(colormap)
-    mappable = cm.ScalarMappable(cmap=cmap)
-    colors = mappable.to_rgba(float_vals)
-    return colors
 
 
 def colored_text(in_text, scores=None, colors=None, colormap='jet', for_html=False, space_char=' '):
