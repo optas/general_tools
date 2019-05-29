@@ -44,7 +44,7 @@ def hsl_to_hsv(color):
 
 
 def hsv_to_rgb(color):
-    """color is a triplet (H, S, V) for hue in degrees (°) 
+    """color is a triplet (H, S, V) for hue in degrees (max=360) 
     and saturation and value in(0..100%)
     """    
     c = (color[0] / 360.0, color[1] / 100.0, color[2] / 100.0)
@@ -54,7 +54,7 @@ def hsv_to_rgb(color):
 
 
 def hsl_to_rgb(color):
-    """color is a triplet (H, S, L) for hue in degrees (°) 
+    """color is a triplet (H, S, L) for hue in degrees (max=360) 
     saturation and value (0..100%)"""
     c = (color[0] / 360.0, color[2] / 100.0, color[1] / 100.0)
     c = colorsys.hls_to_rgb(*c)
