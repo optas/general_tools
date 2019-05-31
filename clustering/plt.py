@@ -14,8 +14,9 @@ import numpy as np
 import matplotlib.pylab as plt
 import cv2
 from PIL import Image
-from general_tools.plotting import read_transparent_png
+
 from sklearn.manifold import TSNE
+from .. plotting.in_out import read_transparent_png
 
 def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', cmap=plt.cm.Blues, figsize=(10, 10), fontsize=20, save_file=None, plt_nums=False):
     '''This function prints and plots the confusion matrix.'''
