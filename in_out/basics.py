@@ -159,3 +159,27 @@ def immediate_subdirectories(top_dir, full_path=True):
     if full_path:
         dir_names = [osp.join(top_dir, name) for name in dir_names]
     return dir_names
+
+
+
+def splitall(path):
+    """
+    Examples:
+        splitall('a/b/c') -> ['a', 'b', 'c']         
+        splitall('/a/b/c/')  -> ['/', 'a', 'b', 'c', '']
+        
+    NOTE: https://www.oreilly.com/library/view/python-cookbook/0596001673/ch04s16.html
+    """
+    allparts = []
+    while 1:
+        parts = osp.split(path)
+        if parts[0] == path:   # Sentinel for absolute paths.
+            allparts.insert(0, parts[0])
+            break
+        elif parts[1] == path: # Sentinel for relative paths.
+            allparts.insert(0, parts[1])
+            break
+        else:
+            path = parts[0]
+            allparts.insert(0, parts[1])
+    return allparts
