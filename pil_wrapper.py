@@ -25,7 +25,7 @@ def square_image(img_file, desired_size, im_type='RGB', bg='white'):
             
     w, h = image.size
     if w < desired_size or h < desired_size:
-        warning.warn('Image has a side with smaller size than the desires_size, use ```resize_image_keep_aspect```.') 
+        warning.warn('Image has a side with smaller size than the desired_size, use ```resize_image_keep_aspect```.') 
     
     image.thumbnail((desired_size, desired_size), Image.ANTIALIAS)
 
