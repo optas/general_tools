@@ -66,6 +66,8 @@ def top_data_dir():
         prefix = '/orion/u/optas/DATA'
     elif host_name.startswith('aetos'):
         prefix = '/home/optas/DATA'
+    elif host_name.startswith('devfair'):
+        prefix = '/private/home/optas/DATA'
     else:
-        prefix = '/'
+        raise ValueError('Unknown Machine.')
     return prefix
