@@ -15,8 +15,8 @@ from six.moves import cPickle
 from six.moves import range
 
 def pickle_data(file_name, *args):
-    '''Using (c)Pickle to save multiple python objects in a single file.
-    '''
+    """Using (c)Pickle to save multiple python objects in a single file.
+    """
     out_file = open(file_name, 'wb')
     cPickle.dump(len(args), out_file, protocol=2)
     for item in args:
@@ -25,10 +25,10 @@ def pickle_data(file_name, *args):
 
 
 def unpickle_data(file_name, python2_to_3=False):
-    '''Restore data previously saved with pickle_data().
+    """Restore data previously saved with pickle_data().
     Note:
         python2_to_3 (if True): https://stackoverflow.com/questions/28218466/unpickling-a-python-2-object-with-python-3
-    '''
+    """
     in_file = open(file_name, 'rb')
     if python2_to_3:
         warnings.warn('Reading saved in 2 to 3: ensure later decoding is latin1.')
@@ -46,8 +46,8 @@ def unpickle_data(file_name, python2_to_3=False):
 
 
 def create_dir(dir_path):
-    ''' Creates a directory (or nested directories) if they don't exist.
-    '''
+    """ Creates a directory (or nested directories) if they don't exist.
+    """
     if not osp.exists(dir_path):
         os.makedirs(dir_path)
 
@@ -153,7 +153,7 @@ def files_in_subdirs(top_dir, search_pattern):
             if regex.search(full_name):
                 yield full_name
 
-                
+
 def immediate_subdirectories(top_dir, full_path=True):
     dir_names = [name for name in os.listdir(top_dir) if os.path.isdir(os.path.join(top_dir, name))]
     if full_path:
