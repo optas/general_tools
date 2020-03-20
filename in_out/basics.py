@@ -26,20 +26,13 @@ def pickle_data(file_name, *args):
 
 
 def unpickle_data(file_name, python2_to_3=False):
-    """Restore data previously saved with pickle_data().
-<<<<<<< HEAD
+    """ Restore data previously saved with pickle_data().
     :param file_name: file holding the pickled data.
     :param python2_to_3: (boolean), if True, pickle happened under python2x, unpickling under python3x.
     :return: an generator over the un-pickled items.
     Note, about implementing the python2_to_3 see
         https://stackoverflow.com/questions/28218466/unpickling-a-python-2-object-with-python-3
     """
-
-=======
-    Note:
-        python2_to_3 (if True): https://stackoverflow.com/questions/28218466/unpickling-a-python-2-object-with-python-3
-    """
->>>>>>> 82b0f968a1ad53c05660bbb6715c8d0829325236
     in_file = open(file_name, 'rb')
     if python2_to_3:
         size = cPickle.load(in_file, encoding='latin1')
@@ -93,9 +86,9 @@ def shuffle_lines_of_file(in_file, out_file, seed=None):
 
 
 def boot_strap_lines_of_file(file_in, lines_total, file_out, skip_rows=0, seed=None):
-    ''' Copies or removes at random lines of the input file, so that its total number
+    """ Copies or removes at random lines of the input file, so that its total number
     of lines is as requested.
-    '''
+    """
     # TODO: check again if last-line to be newline
     with open(file_in, 'r') as f_in:
         original_lines = f_in.readlines()
