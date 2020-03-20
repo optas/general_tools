@@ -1,10 +1,10 @@
-'''
+"""
 Created on December 27, 2016
 
 @author:    Panos Achlioptas
 @contact:   pachlioptas @ gmail.com
 @copyright: You are free to use, change, or redistribute this code in any way you want for non-commercial purposes.
-'''
+"""
 
 import os
 import os.path as osp
@@ -27,12 +27,20 @@ def pickle_data(file_name, *args):
 
 def unpickle_data(file_name, python2_to_3=False):
     """Restore data previously saved with pickle_data().
+<<<<<<< HEAD
+    :param file_name: file holding the pickled data.
+    :param python2_to_3: (boolean), if True, pickle happened under python2x, unpickling under python3x.
+    :return: an generator over the un-pickled items.
+    Note, about implementing the python2_to_3 see
+        https://stackoverflow.com/questions/28218466/unpickling-a-python-2-object-with-python-3
+    """
+
+=======
     Note:
         python2_to_3 (if True): https://stackoverflow.com/questions/28218466/unpickling-a-python-2-object-with-python-3
     """
+>>>>>>> 82b0f968a1ad53c05660bbb6715c8d0829325236
     in_file = open(file_name, 'rb')
-    if python2_to_3:
-        warnings.warn('Reading saved in 2 to 3: ensure later decoding is latin1.')
     if python2_to_3:
         size = cPickle.load(in_file, encoding='latin1')
     else:
@@ -56,8 +64,8 @@ def create_dir(dir_path):
 
 
 def delete_files_in_directory(dir_path):
-    ''' Deletes all files that are directly under the dir_path.
-    '''
+    """ Deletes all files that are directly under the dir_path.
+    """
     file_list = [f for f in os.listdir(dir_path) if osp.isfile(osp.join(dir_path, f))]
     for f in file_list:
         os.remove(osp.join(dir_path, f))
@@ -68,7 +76,7 @@ def copy_folder_structure(top_dir, out_dir):
         top_dir += os.sep
 
     all_dirs = (dir_name for dir_name, _, _ in os.walk(top_dir))
-    all_dirs.next()     # Exhaust first name which is identical to the top_dir.
+    next(all_dirs)     # Exhaust first name which is identical to the top_dir.
     for d in all_dirs:
         create_dir(osp.join(out_dir, d.replace(top_dir, '')))
 
