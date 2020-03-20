@@ -1,50 +1,62 @@
-'''
+"""
 Created on December 26, 2016
 
 @author: optas
-'''
+"""
 from __future__ import division
 from __future__ import print_function
 
 from builtins import zip
 from builtins import range
 from past.utils import old_div
+from PIL import Image
+from sklearn.manifold import TSNE
+
 import itertools
 import numpy as np
 import matplotlib.pylab as plt
 import cv2
-from PIL import Image
 
-from sklearn.manifold import TSNE
-from .. plotting.in_out import read_transparent_png
+from ..plotting.in_out import read_transparent_png
 
-def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', cmap=plt.cm.Blues, figsize=(10, 10), fontsize=20, save_file=None, plt_nums=False):
-    '''This function prints and plots the confusion matrix.'''
+def plot_confusion_matrix(cm, classes, plt_nums=True, normalize=False,
+                          cmap=plt.cm.Blues, figsize=(10, 10),
+                          fontsize=20, save_file=None):
+    """
+    Make a figure of a confusion matrix as returned from sklearn.metrics.confusion_matrix
+    :param cm:
+    :param classes: list of strings corresponding to the class-labels
+    :param plt_nums: plot numbers over heatmap figure
+    :param normalize: the numbers shows will be the percentage of the confusion
+    :param cmap:
+    :param figsize:
+    :param fontsize:
+    :param save_file:
+    :return:
+    """
     plt.figure(figsize=figsize)
-    
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
-    plt.title(title, fontsize=fontsize)
-    plt.colorbar()
-    tick_marks = np.arange(len(classes))
-    plt.xticks(tick_marks, classes, rotation=80)
-    plt.yticks(tick_marks, classes)
+    plt.xticks(np.arange(len(classes)), classes, rotation=90, fontsize=fontsize)
+    plt.yticks(np.arange(len(classes)), classes, fontsize=fontsize)
 
     if normalize:
         cm = old_div(cm.astype('float'), cm.sum(axis=1)[:, np.newaxis])
-        print("Normalized confusion matrix")
+        str_formatter = '{:0.2f}'
     else:
-        print('Confusion matrix, without normalization')
-
-    print(cm)
+        str_formatter = '{}'
 
     if plt_nums:
-        thresh = cm.max() / 2.
+        row_ranks = np.argsort(cm, axis=1)[:, -2:]
         for i, j in itertools.product(list(range(cm.shape[0])), list(range(cm.shape[1]))):
-            plt.text(j, i, cm[i, j], horizontalalignment="center", color="white" if cm[i, j] > thresh else "black")
-
-    plt.xlabel('Predicted label', fontsize=fontsize)
-    plt.ylabel('True label', fontsize=fontsize)    
-    plt.tight_layout()
+            if j == row_ranks[i][0]:
+                color = 'red'
+            elif j == row_ranks[i][1]:
+                color = 'green'
+            else:
+                color = "black"
+            plt.text(j, i, str_formatter.format(cm[i, j]),
+                     horizontalalignment="center",
+                     color=color, fontsize=fontsize/2)
 
     if save_file is not None:
         plt.savefig(save_file)
