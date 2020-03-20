@@ -1,10 +1,10 @@
-'''
+"""
 Created on December 27, 2016
 
 @author:    Panos Achlioptas
 @contact:   pachlioptas @ gmail.com
 @copyright: You are free to use, change, or redistribute this code in any way you want for non-commercial purposes.
-'''
+"""
 
 import os
 import os.path as osp
@@ -14,9 +14,10 @@ import re
 from six.moves import cPickle
 from six.moves import range
 
+
 def pickle_data(file_name, *args):
-    '''Using (c)Pickle to save multiple python objects in a single file.
-    '''
+    """Using (c)Pickle to save multiple python objects in a single file.
+    """
     out_file = open(file_name, 'wb')
     cPickle.dump(len(args), out_file, protocol=2)
     for item in args:
@@ -25,13 +26,15 @@ def pickle_data(file_name, *args):
 
 
 def unpickle_data(file_name, python2_to_3=False):
-    '''Restore data previously saved with pickle_data().
-    Note:
-        python2_to_3 (if True): https://stackoverflow.com/questions/28218466/unpickling-a-python-2-object-with-python-3
-    '''
+    """Restore data previously saved with pickle_data().
+    :param file_name: file holding the pickled data.
+    :param python2_to_3: (boolean), if True, pickle happened under python2x, unpickling under python3x.
+    :return: an generator over the un-pickled items.
+    Note, about implementing the python2_to_3 see
+        https://stackoverflow.com/questions/28218466/unpickling-a-python-2-object-with-python-3
+    """
+
     in_file = open(file_name, 'rb')
-    if python2_to_3:
-        warnings.warn('Reading saved in 2 to 3: ensure later decoding is latin1.')
     if python2_to_3:
         size = cPickle.load(in_file, encoding='latin1')
     else:
@@ -46,8 +49,8 @@ def unpickle_data(file_name, python2_to_3=False):
 
 
 def create_dir(dir_path):
-    ''' Creates a directory (or nested directories) if they don't exist.
-    '''
+    """ Creates a directory (or nested directories) if they don't exist.
+    """
     if not osp.exists(dir_path):
         os.makedirs(dir_path)
 
@@ -55,8 +58,8 @@ def create_dir(dir_path):
 
 
 def delete_files_in_directory(dir_path):
-    ''' Deletes all files that are directly under the dir_path.
-    '''
+    """ Deletes all files that are directly under the dir_path.
+    """
     file_list = [f for f in os.listdir(dir_path) if osp.isfile(osp.join(dir_path, f))]
     for f in file_list:
         os.remove(osp.join(dir_path, f))
@@ -67,7 +70,7 @@ def copy_folder_structure(top_dir, out_dir):
         top_dir += os.sep
 
     all_dirs = (dir_name for dir_name, _, _ in os.walk(top_dir))
-    all_dirs.next()     # Exhaust first name which is identical to the top_dir.
+    next(all_dirs)     # Exhaust first name which is identical to the top_dir.
     for d in all_dirs:
         create_dir(osp.join(out_dir, d.replace(top_dir, '')))
 
@@ -153,7 +156,7 @@ def files_in_subdirs(top_dir, search_pattern):
             if regex.search(full_name):
                 yield full_name
 
-                
+
 def immediate_subdirectories(top_dir, full_path=True):
     dir_names = [name for name in os.listdir(top_dir) if os.path.isdir(os.path.join(top_dir, name))]
     if full_path:
