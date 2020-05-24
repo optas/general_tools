@@ -1,0 +1,8 @@
+PYTORCH:
+
+#torch.nn.DataParallel
+ -> it breaks the batch-size into batch-size / n_gpus, each computes gradients
+ -> then sums the gradients on master GPU
+ -> so it tries to immitate single GPU training
+ -> things that are sensitive to the batch-size, e.g., estimate of running means used
+ in b-normalization can deteriorate since each GPU uses a smaller sample for them.

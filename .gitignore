@@ -9,7 +9,6 @@
 
 
 # Pydev.
-.project
 .pydevproject
 .settings
 

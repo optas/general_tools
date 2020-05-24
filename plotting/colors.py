@@ -66,3 +66,9 @@ def rgb_to_hsv(rgb):
     rgb_0_1 = [d / 255.0 for d in rgb[:3]]
     hsv_0_1 = colorsys.rgb_to_hsv(*rgb_0_1)
     return tuple(d * r for d, r in zip(hsv_0_1, [360.0, 100.0, 100.0]))
+
+
+def boldface_string(x):
+    start = "\033[1m"
+    end = "\033[0;0m"
+    return start + x + end
