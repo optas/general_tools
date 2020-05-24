@@ -7,6 +7,7 @@ Created on February 24, 2017
 from builtins import range
 import operator
 import numpy as np
+import six
 
 
 def sort_dict_by_key(in_dict, reverse=False):
@@ -18,7 +19,7 @@ def sort_dict_by_val(in_dict, reverse=False):
 
 
 def invert_dictionary(d):
-    inv_map = {v: k for k, v in d.items()}
+    inv_map = {v: k for k, v in six.iteritems(d)}
     return inv_map
 
 
@@ -51,9 +52,9 @@ def select_first_last_and_k(in_list, k):
 
 
 def indices_in_iterable(target, queries):
-    '''Find index of each item of the 'queries' in the 'target'.
+    """Find index of each item of the 'queries' in the 'target'.
     If a query does not exist in the target, the corresponding index is set to -1.
-    '''
+    """
 
     if len(np.unique(np.array(target, dtype=object))) != len(target):
         raise ValueError('Target has to be comprised by unique elements.')
