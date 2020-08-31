@@ -28,17 +28,24 @@ def stack_images_horizontally(file_names, save_file=None):
     return new_im
 
 
-def stack_images_in_square_grid(file_names, save_file=None):
-    ''' Opens the images corresponding to file_names and
+def stack_images_in_square_grid(file_names, save_file=None, im_size=None):
+    """ Opens the images corresponding to file_names and
     creates a new grid-square image that plots them in individual cells.
     The behavior is as expected when the sizes of the images are the same.
-    '''
-    images = list(map(Image.open, file_names))
+    """
+    if im_size is not None:
+        def opener(img_file):
+            """load an image and resize it"""
+            return Image.open(img_file).resize((im_size, im_size), Image.LANCZOS)
+    else:
+        opener = Image.open
+
+    images = list(map(opener, file_names))
     widths, heights = list(zip(*(i.size for i in images)))
     max_width = max(widths)
     max_height = max(heights)
     n_images = len(images)
-    im_per_row = int(np.floor(np.sqrt(n_images)))
+    im_per_row = int(np.ceil(np.sqrt(n_images)))
     total_width = im_per_row * max_width
     total_height = im_per_row * max_height
     new_im = Image.new('RGBA', (total_width, total_height))
@@ -62,7 +69,6 @@ def stack_images_in_square_grid(file_names, save_file=None):
     if save_file is not None:
         new_im.save(save_file)
     return new_im
-
 
 
 def colored_text(in_text, scores=None, colors=None, colormap='jet', for_html=False, space_char=' '):
