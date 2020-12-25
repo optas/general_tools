@@ -146,10 +146,10 @@ def read_header_of_np_saved_txt(in_file):
     return header
 
 
-def files_in_subdirs(top_dir, search_pattern):
+def files_in_subdirs(top_dir, search_pattern, followlinks=False):
     join = os.path.join
     regex = re.compile(search_pattern)
-    for path, _, files in os.walk(top_dir):
+    for path, _, files in os.walk(top_dir, followlinks=followlinks):
         for name in files:
             full_name = join(path, name)
             if regex.search(full_name):
