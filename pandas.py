@@ -15,6 +15,7 @@ def highlight_max(s):
     return ['background-color: yellow' if v else '' for v in is_max]
 
 
-df.style.apply(highlight_max)
+# df.style.apply(highlight_max)
+
 
 

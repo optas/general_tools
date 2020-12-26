@@ -5,6 +5,7 @@ import matplotlib.pylab as plt
 import matplotlib.colors as mcolors
 from PIL import Image
 from matplotlib import transforms
+from .. pil_wrapper import center_with_padding
 
 
 from . colors import scalars_to_colors
@@ -28,17 +29,20 @@ def stack_images_horizontally(file_names, save_file=None):
     return new_im
 
 
-def stack_images_in_square_grid(file_names, save_file=None, im_size=None):
+def stack_images_in_square_grid(file_names, save_file=None, im_size=None, bg_color='white', im_mode='RGBA',
+                                image_opener=None):
     """ Opens the images corresponding to file_names and
     creates a new grid-square image that plots them in individual cells.
-    The behavior is as expected when the sizes of the images are the same.
     """
-    if im_size is not None:
-        def opener(img_file):
-            """load an image and resize it"""
-            return Image.open(img_file).resize((im_size, im_size), Image.LANCZOS)
+
+    if image_opener is not None:
+        opener = image_opener
     else:
-        opener = Image.open
+        if im_size is not None:
+            def opener(img_file):
+                return center_with_padding(Image.open(img_file), im_size, im_size, bg=bg_color)
+        else:
+            opener = Image.open
 
     images = list(map(opener, file_names))
     widths, heights = list(zip(*(i.size for i in images)))
@@ -48,7 +52,8 @@ def stack_images_in_square_grid(file_names, save_file=None, im_size=None):
     im_per_row = int(np.ceil(np.sqrt(n_images)))
     total_width = im_per_row * max_width
     total_height = im_per_row * max_height
-    new_im = Image.new('RGBA', (total_width, total_height))
+
+    new_im = Image.new(im_mode, (total_width, total_height), color=bg_color)
 
     x_offset = 0
     y_offset = 0
