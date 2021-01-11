@@ -1,6 +1,6 @@
-"""
-Created on December 27, 2016
-
+"""Very basic in-out utilities.
+The MIT License (MIT)
+Originally created in 2016 for Python 2.x. (Updated in 2019 for Python 3.x.)
 @author:    Panos Achlioptas
 @contact:   pachlioptas @ gmail.com
 @copyright: You are free to use, change, or redistribute this code in any way you want for non-commercial purposes.
@@ -147,6 +147,8 @@ def read_header_of_np_saved_txt(in_file):
 
 
 def files_in_subdirs(top_dir, search_pattern, followlinks=False):
+    """ Return a generator of all files in subdirectories that match the given regular expression (pattern).
+    """
     join = os.path.join
     regex = re.compile(search_pattern)
     for path, _, files in os.walk(top_dir, followlinks=followlinks):
