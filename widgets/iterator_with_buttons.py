@@ -3,7 +3,7 @@ Iterate + apply a function, and at each such step display widget buttons to get 
 
 The MIT License (MIT)
 Originally created at 9/26/20, for Python 3.x
-Copyright (c) 2020 Panos Achlioptas (pachlioptas@gmail.com) & Stanford Geometric Computing Lab
+Copyright (c) 2020 Panos Achlioptas (https://optas.github.io) & Ahmed Abdelreheem (http://aabdelreheem.me/)
 """
 
 
@@ -86,9 +86,6 @@ class ButtonIterator:
 
         # Adjust the progress bar
         print(self.current_index, '/', len(self.iterable))
-
-        # if self.results:
-        #     print(self.iterable.iloc[self.current_index]['emotion'])
 
         self.progress_bar.value = self.current_index
 
